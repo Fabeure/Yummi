@@ -2,14 +2,17 @@
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
-    colors:{
-      'gris':'#7F7F7F',
-      'gris_clair':'#E8E8E8',
-      'bg':'#FFFBF3',
-      'main':'#CD5C08',
-      'light_green':"#E6F4E8",
-      'second_main':'#6A9C89',
-      'bg_fonce':"#FAEFDB"
+    colors: {
+      gris: "#7F7F7F",
+      gris_clair: "#E8E8E8",
+      bg: "#FFFBF3",
+      main: "#CD5C08",
+      light_green: "#E6F4E8",
+      second_main: "#6A9C89",
+      bg_fonce: "#FAEFDB",
+      yellow: {
+        300: "#fcd34d",
+      },
     },
     fontFamily:{
       'playfair':['Playfair','serif'],
