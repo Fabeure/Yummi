@@ -1,10 +1,13 @@
+import { HeaderComponent } from '../../shared/header/header.component';
 import { Component, signal } from '@angular/core';
 import { MealPlanCardComponent } from '../../components/meal-plan-card/meal-plan-card.component';
 import { MealCardComponent } from "../../components/meal-card/meal-card.component";
+import { SliderComponent } from '../../components/slider/slider.component';
+import { SliderImages } from '../../components/slider/slider.component';
 
 @Component({
   selector: 'app-home',
-  imports: [MealPlanCardComponent, MealCardComponent],
+  imports: [MealPlanCardComponent, MealCardComponent, SliderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true,
@@ -92,4 +95,21 @@ export class HomeComponent {
       comments: '12',
     },
   ]);
+  images: SliderImages[] = [
+    {
+      imageSrc: 'slider/applepie.jpg',
+      title: 'Cinnamon Apple Loaded Tart',
+      link: '#',
+    },
+    {
+      imageSrc: '/slider/breakfast.jpeg',
+      title: 'Cinnamon Apple Loaded Tart',
+      link: '#',
+    },
+    {
+      imageSrc: '/slider/cheesecake.webp',
+      title: 'Cinnamon Apple Loaded Tart',
+      link: '#',
+    },
+  ];
 }

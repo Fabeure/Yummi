@@ -5,7 +5,8 @@ import { Component, Input
   selector: 'app-meal-plan-card',
   imports: [],
   templateUrl: './meal-plan-card.component.html',
-  styleUrl: './meal-plan-card.component.css'
+  styleUrl: './meal-plan-card.component.css',
+  standalone: true
 })
 export class MealPlanCardComponent {
   @Input() title!: string;

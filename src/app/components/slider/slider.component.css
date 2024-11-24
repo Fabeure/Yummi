@@ -1,0 +1,167 @@
+  /* .slider {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+  }
+  
+  .slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .slider-item {
+    min-width: 100%;
+    box-sizing: border-box;
+    display: none;
+  }
+  
+  .slider-item.active {
+    display: block;
+  }
+  
+  .slider-image {
+    width: 100%;
+  }
+  
+  .slider-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+  }
+  
+  .slider-control {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }   */
+  /* .slider-container {
+    position: relative;
+    max-width: 80%; 
+    margin: auto;
+    overflow: hidden;
+}
+
+.slider {
+    position: relative;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slider-item {
+    position: relative;
+    flex: 1 0 100%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: cover;
+}
+
+.slider-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    filter: brightness(0.7); }
+
+.slider-content {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
+    z-index: 10;
+}
+
+
+.slider-link {
+    padding: 8px 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: inline-block;
+}
+
+.slider-link:hover {
+    color: white;
+} */
+.slider-container {
+  position: relative;
+  max-width: 800px; /* Adjust to your desired width */
+  margin: auto;
+  overflow: hidden;
+}
+
+.slider {
+  position: relative;
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slider-item {
+  position: relative;
+  flex: 1 0 100%; /* Ensures one slide is visible at a time */
+  display: none; /* Hide all slides by default */
+}
+
+.slider-item.active {
+  display: block; /* Show only the active slide */
+}
+
+.slider-image {
+  width: 120%;
+  height: 400px; /* Set a fixed height */
+  object-fit: cover; /* Ensure the image covers the full space */
+}
+
+.slider-content {
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Makes text stand out */
+  z-index: 10;
+}
+
+.slider-title {
+  font-size: 2rem;
+  font-weight: bold;
+  
+  font-family: 'Playfair', serif; /* For a classic, elegant look */
+}
+
+.slider-link {
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  border: 2px solid white;
+  padding: 8px 15px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: inline-block;
+}
+
+.slider-link:hover {
+  background-color: white;
+  color: black;
+}
+
+.slider-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  z-index: 20; /* Ensure controls are above the image */
+}
+
+.slider-control {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}

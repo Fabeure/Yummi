@@ -14,10 +14,10 @@ module.exports = {
         300: "#fcd34d",
       },
     },
-    fontFamily: {
-      playfairDisplay: ["Playfair Display", "serif"],
-      inter: ["Inter", "sans-serif"],
-      playfair: ["Playfair", "serif"],
+    fontFamily:{
+      'playfair':['Playfair','serif'],
+      'inter':['Inter', 'sans-serif'],
+      'playfair':['Playfair','serif']
     },
     extend: {},
   },
