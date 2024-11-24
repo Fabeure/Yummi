@@ -1,0 +1,16 @@
+<div class="flex px-4 md:px-16 lg:px-28">
+  <p class="text-main text-3xl md:text-4xl lg:text-5xl font-playfairDisplay">
+    Meal plans
+  </p>
+</div>
+<div class="flex flex-wrap px-4 md:px-16 lg:px-20">
+  @for(mealPlan of MealPlans() ; track mealPlan){
+  <div class="w-full sm:w-1/2 md:w-1/3 flex justify-between p-2">
+    <app-meal-plan-card
+      [title]="mealPlan.title"
+      [image]="mealPlan.image"
+      [recipes]="mealPlan.recipes"
+    ></app-meal-plan-card>
+  </div>
+  }
+</div>
