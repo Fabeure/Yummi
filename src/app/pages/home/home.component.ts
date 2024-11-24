@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { MealPlanCardComponent } from "../../components/meal-plan-card/meal-plan-card.component";
+import { MealPlanCardComponent } from '../../components/meal-plan-card/meal-plan-card.component';
+import { MealCardComponent } from "../../components/meal-card/meal-card.component";
 
 @Component({
   selector: 'app-home',
-  imports: [ MealPlanCardComponent],
+  imports: [MealPlanCardComponent, MealCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true,
@@ -39,6 +40,56 @@ export class HomeComponent {
       title: 'Family Feast Frenzy: Meals to Keep Everyone Smiling',
       recipes: '156 recipes',
       image: 'mealplans6.png',
+    },
+  ]);
+  Meals = signal([
+    {
+      title: 'Delicious Fancy Glazed Bleuberry',
+      username: 'Sobsob',
+      image: 'mealplans1.jpg',
+      userImage: 'profile.jpg',
+      date: 'yesterday',
+      comments: '12',
+    },
+    {
+      title: 'Delicious Fancy Glazed Bleuberry',
+      username: 'Sobsob',
+      image: 'mealplans1.jpg',
+      userImage: 'profile.jpg',
+      date: 'yesterday',
+      comments: '12',
+    },
+    {
+      title: 'Delicious Fancy Glazed Bleuberry',
+      username: 'Sobsob',
+      image: 'mealplans1.jpg',
+      userImage: 'profile.jpg',
+      date: 'yesterday',
+      comments: '12',
+    },
+    {
+      title: 'Delicious Fancy Glazed Bleuberry',
+      username: 'Sobsob',
+      image: 'mealplans1.jpg',
+      userImage: 'profile.jpg',
+      date: 'yesterday',
+      comments: '12',
+    },
+    {
+      title: 'Delicious Fancy Glazed Bleuberry',
+      username: 'Sobsob',
+      image: 'mealplans1.jpg',
+      userImage: 'profile.jpg',
+      date: 'yesterday',
+      comments: '12',
+    },
+    {
+      title: 'Delicious Fancy Glazed Bleuberry',
+      username: 'Sobsob',
+      image: 'mealplans1.jpg',
+      userImage: 'profile.jpg',
+      date: 'yesterday',
+      comments: '12',
     },
   ]);
 }
