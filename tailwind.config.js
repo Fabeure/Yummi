@@ -12,7 +12,7 @@ module.exports = {
       'bg_fonce':"#FAEFDB"
     },
     fontFamily:{
-      'playfair':['Playfair Display', 'serif'],
+      'playfairDisplay':['Playfair Display', 'serif'],
       'inter':['Inter', 'sans-serif'],
       'playfair':['Playfair','serif']
     },
