@@ -14,6 +14,7 @@ module.exports = {
     fontFamily:{
       'playfair':['Playfair','serif'],
       'inter':['Inter', 'sans-serif'],
+      'playfair':['Playfair','serif']
     },
     extend: {},
   },

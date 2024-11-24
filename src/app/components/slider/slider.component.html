@@ -1,0 +1,16 @@
+<div class="slider-container" (mouseenter)="stopAutoSlide()" (mouseleave)="startAutoSlide()">
+    <div class="slider">
+        @for (item of images; track $index) {
+        <div class="slider-item" [class.active]="$index === currentIndex">
+        <img [src]="item.imageSrc" [alt]="item.title" class="slider-image">
+        <div class="slider-content">
+            <h2 class="slider-title font-playfair font-extrabold text-3xl text-bg_fonce">{{ item.title }}</h2>
+            <a [href]="item.link" class="slider-link font-playfair font-extrabold text-xl text-bg_fonce">Discover</a>
+        </div>
+        </div>}
+    </div>
+    <div class="slider-controls">
+        <button class="slider-control" (click)="prevSlide()"><</button>
+        <button class="slider-control" (click)="nextSlide()">></button>
+    </div>
+</div>
