@@ -4,10 +4,11 @@ import { MealPlanCardComponent } from '../../components/meal-plan-card/meal-plan
 import { MealCardComponent } from "../../components/meal-card/meal-card.component";
 import { SliderComponent } from '../../components/slider/slider.component';
 import { SliderImages } from '../../components/slider/slider.component';
+import { CategoryComponent } from '../../components/category/category.component';
 
 @Component({
   selector: 'app-home',
-  imports: [MealPlanCardComponent, MealCardComponent, SliderComponent],
+  imports: [MealPlanCardComponent, MealCardComponent, SliderComponent, CategoryComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true,
@@ -97,19 +98,26 @@ export class HomeComponent {
   ]);
   images: SliderImages[] = [
     {
-      imageSrc: 'slider/applepie.jpg',
-      title: 'Cinnamon Apple Loaded Tart',
+      imageSrc: 'slider/cherry2.jpg',
+      title: 'Pumpkin Pie',
       link: '#',
     },
     {
-      imageSrc: '/slider/breakfast.jpeg',
-      title: 'Cinnamon Apple Loaded Tart',
+      imageSrc: '/slider/cake.jpg',
+      title: 'Birthday Cakes',
       link: '#',
     },
     {
-      imageSrc: '/slider/cheesecake.webp',
-      title: 'Cinnamon Apple Loaded Tart',
+      imageSrc: '/slider/cheesecake2.jpg',
+      title: 'Blueberry Cheesecake',
       link: '#',
     },
+  ];
+  categories = [
+    { name: 'Pizza', image: 'categories/pizza.jpg' },
+    { name: 'Pasta', image: 'categories/pasta.jpg' },
+    { name: 'Smoothie', image: 'categories/smoothie.webp' },
+    { name: 'Vegan', image: 'categories/vegan.jpg' },
+    { name: 'Dessert', image: 'categories/dessert.jpg' }
   ];
 }
