@@ -1,0 +1,112 @@
+<div class="p-8 mx-[10%]">
+  <div class="flex flex-row justify-between">
+    <div class="profile">
+      <h1 class="text-3xl uppercase font-bold mb-8 font-playfair">Profile</h1>
+    </div>
+    <div class="save-delete flex flex-col  space-y-4">
+      <button class="px-4 py-1 text-white bg-main rounded-md hover:bg-second_main transition">
+        Save
+      </button>
+      <button class="px-4 py-1 text-white bg-main rounded-md hover:bg-bg_fonce transition">
+        Delete account
+      </button>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-5 mb-6">
+    <img src="../../../assets/cat.png" alt="Profile Picture" class="w-20 h-20 rounded-full object-cover " />
+    <button class="px-4 py-1 bg-main text-white rounded-md hover:bg-amber-700 transition">
+      Change picture
+    </button>
+    <button class="px-4 py-1 bg-white text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 transition">
+      Delete
+    </button>
+  </div>
+
+  <div class="form w-[80%]">
+    <form class=" flex flex-wrap font-inter ml-[-10px]">
+      <div class="m-4 w-[40%]">
+        <label for="full-name" class=" uppercase font-light text-gray block text-sm   mb-1">Full Name</label>
+        <div class="flex items-center border-b border-gray py-2">
+          <i class="fas fa-user text-amber-600 mr-2"></i>
+          <input type="text" id="full-name" class="w-full outline-none " placeholder="Saboua Abd" [(ngModel)]="fullName"
+            name="fullName" />
+        </div>
+      </div>
+
+      <div class="m-4  w-[40%]">
+        <label for="username" class="block text-sm uppercase font-light text-gray mb-1">Username</label>
+        <div class="flex items-center border-b border-gray-300 py-2">
+          <i class="fa-regular fa-user mr-2"></i>
+          <input type="text" id="username" class="w-full outline-none text-gray-700" placeholder="Miller"
+            [(ngModel)]="username" name="username" />
+        </div>
+      </div>
+
+      <div class="m-4  w-[40%]">
+        <label for="email" class="block text-sm uppercase font-light text-gray mb-1">Email</label>
+        <div class="flex items-center border-b border-gray-300 py-2">
+          <i class="fa-regular fa-envelope mr-2"></i>
+          <input type="email" id="email" class="w-full outline-none text-gray-700" placeholder="sousou@gmail.com"
+            [(ngModel)]="email" name="email" />
+        </div>
+      </div>
+
+      <div class="m-4  w-[40%]">
+        <label for="password" class="block text-sm uppercase font-light text-gray mb-1">Password</label>
+        <div class="flex items-center border-b border-gray-300 py-2">
+          <i class="fa-solid fa-lock mr-2"></i>
+          <input type="password" id="password" class="w-full outline-none text-gray-700" placeholder="********"
+            [(ngModel)]="password" name="password" />
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <button class="px-6 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition">
+          Save
+        </button>
+        <button class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
+          Delete account
+        </button>
+      </div>
+    </form>
+
+  </div>
+
+  <div class="mt-[30px] favorites">
+
+    <div class="header ">
+
+      <div class="flex flex-row justify-between">
+        <div class="flex">
+          <img src="../../../assets/favorite.png" class="w-8 h-8 mr-4 rounded-full object-cover" alt="">
+          <h1 class="text-3xl  font-bold mb-8 font-playfair">Favorites</h1>
+        </div>
+
+
+        <div class="relative inline-block">
+          <button (click)="toggleDropdown()"
+            class="px-6 py-1 bg-amber-600 border-[1px] rounded-md hover:bg-amber-700 transition">
+            Sort by
+            <i class="fa-solid fa-arrow-down"></i>
+          </button>
+
+          <div #dropdownMenu class="absolute hidden bg-white shadow-lg rounded-md mt-2 w-48">
+            <ul class="text-gray-800">
+              <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 1</li>
+              <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 2</li>
+              <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Option 3</li>
+            </ul>
+          </div>
+        </div>
+
+
+      </div>
+
+      <hr class="mt-[-20px] text-gray">
+
+
+    </div>
+
+  </div>
+</div>

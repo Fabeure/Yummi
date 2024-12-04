@@ -1,0 +1,12 @@
+.text-white{
+  color:white;
+}
+
+.text-gray{
+  color:rgb(98, 98, 98);
+}
+
+input{
+  background-color: transparent;
+  font-weight: 300;
+}
