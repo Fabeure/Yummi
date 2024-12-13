@@ -1,18 +1,17 @@
 <div class="results-container flex flex-col items-center">
-    <div class="grid gap-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
-      <app-meal-card
-        *ngFor="let item of items"
-        [title]="item.title"
-        [username]="item.username"
-        [image]="item.image"
-        [userImage]="item.userImage"
-        [date]="item.date"
-        [comments]="item.comments">
-      </app-meal-card>
-    </div>
-    <button *ngIf="showLoadMore" 
-      class="load-more-button border px-4 py-2 rounded-lg mt-4 lg:px-6 lg:py-3 font-playfair text-lg text-main font-bold">
-      Load More
-    </button>
+  <div class="grid gap-4 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
+    <app-meal-card
+      *ngFor="let item of items; trackBy: trackByIndex"
+      [title]="item.title"
+      [username]="item.username"
+      [image]="item.image"
+      [userImage]="item.userImage"
+      [date]="item.date"
+      [comments]="item.comments">
+    </app-meal-card>
   </div>
-  
+  <button *ngIf="showLoadMore" 
+    class="load-more-button border px-4 py-2 rounded-lg mt-4 lg:px-6 lg:py-3 font-playfair text-lg text-main font-bold" (click)="onLoadMoreClick()">
+    Load More
+  </button>
+</div>
