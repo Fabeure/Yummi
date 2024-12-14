@@ -57,3 +57,48 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## ProductListComponent
+
+A standalone Angular component for displaying a grid of product items (e.g., meals) with pagination functionality. Designed with responsiveness and performance in mind, and styled using Tailwind CSS.
+
+## Features
+
+- **Responsive Grid**: Displays items in a grid layout that adjusts dynamically for different screen sizes.
+- **Pagination**: Includes a "Load More" button to fetch additional items.
+- **Efficient Rendering**: Implements `ChangeDetectionStrategy.OnPush` and `trackBy` for optimal performance.
+- **Customizable**: Accepts a list of product items and toggles the "Load More" button based on input.
+
+## Inputs
+
+- `items: ProductItem[]`  
+  Array of products to display. Each item has the following properties:
+  - `title: string` - The product title.
+  - `username: string` - Creator's username.
+  - `image: string` - URL of the product image.
+  - `userImage: string` - URL of the creator's image.
+  - `date: string` - Creation date.
+  - `comments: string` - Product description.
+  - `category: string` - Product category.
+
+- `showLoadMore: boolean`  
+  Toggles the visibility of the "Load More" button.
+
+## Outputs
+
+- `loadMore: EventEmitter<void>`  
+  Emits an event when the "Load More" button is clicked.
+
+## Example Usage
+
+```html
+<app-product-list
+  [items]="products"
+  [showLoadMore]="canLoadMore"
+  (loadMore)="handleLoadMore()">
+</app-product-list>
+
+
+
+
+
