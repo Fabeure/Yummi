@@ -11,7 +11,7 @@ export const routes: Routes = [
   {
     path: 'test',
     component: TestSearchComponent,
-  }
+  },
   {
     path: 'profile',
     component: ProfileComponent,
