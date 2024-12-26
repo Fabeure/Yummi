@@ -1,0 +1,146 @@
+/* Recipe Content Section */
+.recipe-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    color: #444;
+  }
+  
+  /* Recipe Details */
+  .recipe-details {
+    margin-bottom: 20px;
+  }
+  
+  .recipe-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #703c1d; /* Matches the title color */
+  }
+  
+  /* Main Content */
+  .recipe-main {
+    flex: 2;
+  }
+  
+  /* Ingredients Section */
+  .ingredients {
+    margin-bottom: 30px;
+  }
+  
+  .ingredients h2 {
+    font-size: 24px;
+    color: #703c1d;
+    margin-bottom: 10px;
+  }
+  
+  .ingredients ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .ingredients li {
+    margin: 5px 0;
+  }
+  
+  /* Instructions Section */
+  .instructions h2 {
+    font-size: 24px;
+    color: #703c1d;
+    margin-bottom: 10px;
+  }
+  
+  .instructions ol {
+    padding-left: 20px;
+  }
+  
+  .instructions li {
+    margin: 10px 0;
+    line-height: 1.5;
+  }
+  
+  /* Sidebar */
+  .recipe-sidebar {
+    flex: 1;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  /* Nutrition Facts */
+  .nutrition-facts {
+    margin-bottom: 30px;
+  }
+  
+  .nutrition-facts h2 {
+    font-size: 20px;
+    color: #703c1d;
+    margin-bottom: 10px;
+  }
+  
+  .nutrition-facts ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .nutrition-facts li {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  
+  /* Fresh Recipes */
+  .fresh-recipes h2 {
+    font-size: 20px;
+    color: #703c1d;
+    margin-bottom: 10px;
+  }
+  
+  .fresh-recipes ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .fresh-recipes li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .fresh-recipes img {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .fresh-recipes p {
+    font-size: 14px;
+    margin: 0;
+  }
+  
+  /* General Layout */
+  .recipe-content {
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .recipe-main,
+  .recipe-sidebar {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .recipe-content {
+      flex-direction: column;
+    }
+  
+    .recipe-main,
+    .recipe-sidebar {
+      width: 100%;
+    }
+  }
+  
