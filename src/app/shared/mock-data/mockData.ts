@@ -9,7 +9,7 @@ export interface ProductItem {
   }
   
 
-const categories = [
+export const categories = [
   'Desserts', 'Seafood', 'Italian', 'FastFood', 'Vegan', 'Salads', 'Beverages'
 ];
 

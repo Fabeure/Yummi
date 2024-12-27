@@ -1,12 +1,29 @@
-.text-white{
-  color:white;
+.text-white {
+  color: white;
 }
 
-.text-gray{
-  color:rgb(98, 98, 98);
+.text-gray {
+  color: rgb(98, 98, 98);
 }
 
-input{
+input {
   background-color: transparent;
   font-weight: 300;
+}
+
+ul {
+  transition: all 0.1s ease-out;
+}
+
+.element {
+  border-radius: 20px;
+  display: inline-block;
+  line-height: 1.5;
+  transition: 1s;
+}
+
+.element:hover {
+  transform: translateY(2px);
+  background: #FAEFDB;
+  transition: 0.05s;
 }
