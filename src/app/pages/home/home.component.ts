@@ -98,18 +98,33 @@ export class HomeComponent {
   ]);
   images: SliderImages[] = [
     {
-      imageSrc: 'slider/cherry2.jpg',
-      title: 'Pumpkin Pie',
-      link: '#',
-    },
-    {
       imageSrc: '/slider/cake.jpg',
       title: 'Birthday Cakes',
       link: '#',
     },
     {
-      imageSrc: '/slider/cheesecake2.jpg',
-      title: 'Blueberry Cheesecake',
+      imageSrc: '/slider/macron.jpg',
+      title: 'macaron',
+      link: '#',
+    },
+    {
+      imageSrc: '/slider/cookies.jpg',
+      title: 'cookies',
+      link: '#',
+    }, 
+    {
+      imageSrc: '/slider/healthy_salad.jpg',
+      title: 'healthy salad',
+      link: '#',
+    },
+    {
+      imageSrc: '/slider/healthy.jpg',
+      title: 'Healthy Bowl',
+      link: '#',
+    },
+    {
+      imageSrc: '/slider/dessert.jpg',
+      title: 'Appetizer Board',
       link: '#',
     },
   ];
