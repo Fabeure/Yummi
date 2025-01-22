@@ -1,5 +1,11 @@
 <app-recipe-header></app-recipe-header>
+@defer () {
 <app-recipe-content></app-recipe-content>
-<app-recipe-footer></app-recipe-footer>
+}
+<app-recipe-footer #deferTriggerElement></app-recipe-footer>
+@defer (on viewport(deferTriggerElement)) {
 <app-recipe-comments></app-recipe-comments>
+}
+@defer (on viewport(deferTriggerElement)) {
 <app-recipe-suggestions></app-recipe-suggestions>
+}
