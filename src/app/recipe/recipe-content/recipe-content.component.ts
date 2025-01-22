@@ -11,7 +11,6 @@ const APIKEY = 'b4483ec767c94699b208330d5c074dd8';
 })
 export class RecipeContentComponent {
   recipe: Recipe | null = null;
-  /*
   route = inject(ActivatedRoute);
   http = inject(HttpClient);
   ngOnInit() {
@@ -67,7 +66,7 @@ export class RecipeContentComponent {
         )?.amount,
       },
     };
-  }*/
+  }/*
   constructor() {
     this.recipe = {
       id: 324694,
@@ -122,7 +121,7 @@ export class RecipeContentComponent {
         protein: 8.49,
       },
     };
-  }
+  }*/
 }
 
 interface Recipe {
