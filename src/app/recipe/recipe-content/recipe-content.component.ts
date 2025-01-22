@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
-const APIKEY = 'b4483ec767c94699b208330d5c074dd8';
 @Component({
   selector: 'app-recipe-content',
   imports: [],
@@ -15,8 +15,8 @@ export class RecipeContentComponent {
   http = inject(HttpClient);
   ngOnInit() {
     //const id = this.route.snapshot.paramMap.get('id');
-    const id = 324694	;
-    const URL = `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${APIKEY}`;
+    const id = 324694;
+    const URL = `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${environment.apiKey}`;
     this.http.get<Recipe>(URL).subscribe({
       next: (response) => {
         console.log(response);
@@ -66,7 +66,7 @@ export class RecipeContentComponent {
         )?.amount,
       },
     };
-  }/*
+  } /*
   constructor() {
     this.recipe = {
       id: 324694,
