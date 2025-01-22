@@ -8,7 +8,7 @@ import { LazyLoadDirective } from '../../directives/lazy-load.directive';
 import { HttpClient, provideHttpClient} from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { DIET_IMAGES } from './diet.const';
-import { environment } from '../../../environments/environment';
+//import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +18,7 @@ import { environment } from '../../../environments/environment';
   standalone: true,
 })
 export class HomeComponent {
-  private readonly apiKey = environment.apiKey;
+  private readonly apiKey = "environment.apiKey";
   MealPlans = signal<{ title: string; recipes: string; image: string }[]>([]);
 
   constructor(private http: HttpClient, private router: Router) {}
