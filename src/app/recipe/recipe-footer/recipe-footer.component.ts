@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { CommentComponent } from '../../components/comment/comment.component';
 
 @Component({
   selector: 'app-recipe-footer',
@@ -7,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './recipe-footer.component.css'
 })
 export class RecipeFooterComponent {
+
 
 }

@@ -4,6 +4,7 @@ export const APP_ROUTES = {
     categories: 'categories',
     home: '',
     profile: 'profile',
-    recipe: 'recipe',
+    recipe: 'recipe/:id',
     test: 'test',
 };
+export const RANDOM = 8;

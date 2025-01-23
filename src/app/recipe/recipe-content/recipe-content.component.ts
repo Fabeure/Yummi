@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { Recipe } from '../recipe.model';
+import { RecipeService } from '../../services/recipe.service.service';
 
 @Component({
   selector: 'app-recipe-content',
@@ -11,62 +13,20 @@ import { environment } from '../../../environments/environment';
 })
 export class RecipeContentComponent {
   recipe: Recipe | null = null;
+  randomRecipes: Recipe[] = [];
   route = inject(ActivatedRoute);
-  http = inject(HttpClient);
+  recipeService = inject(RecipeService);
   ngOnInit() {
-    //const id = this.route.snapshot.paramMap.get('id');
-    const id = 324694;
-    const URL = `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${environment.apiKey}`;
-    this.http.get<Recipe>(URL).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.recipe = this.maptoRecipe(response);
-        console.log(this.maptoRecipe(response));
-      },
-      error: (error) => {
-        console.error(error);
-      },
-      complete: () => {
-        console.log('data transfer complete');
-      },
+    this.route.data.subscribe((data) => {
+      this.recipe = data['recipe'];
+    });
+    this.recipeService.getRandomRecipe(4).subscribe((recipes) => {
+      this.randomRecipes = recipes;
+      console.log("thsi is recipes ", recipes)
     });
   }
-  maptoRecipe(response: any): Recipe {
-    return {
-      id: response.id,
-      name: response.title,
-      image: response.image,
-      description: response.summary,
-      prepTime: response.preparationMinutes,
-      cookTime: response.cookingMinutes,
-      servings: response.servings,
-      ingredients: response.extendedIngredients.map((i: any) => i.original),
-      instructions: response.analyzedInstructions[0]?.steps.map(
-        (s: any) => s.step
-      ),
-      nutritionFacts: {
-        calories: response.nutrition.nutrients.find(
-          (n: any) => n.name === 'Calories'
-        )?.amount,
-        fat: response.nutrition.nutrients.find((n: any) => n.name === 'Fat')
-          ?.amount,
-        saturatedFat: response.nutrition.nutrients.find(
-          (n: any) => n.name === 'Saturated Fat'
-        )?.amount,
-        carbohydrates: response.nutrition.nutrients.find(
-          (n: any) => n.name === 'Carbohydrates'
-        )?.amount,
-        sugar: response.nutrition.nutrients.find((n: any) => n.name === 'Sugar')
-          ?.amount,
-        cholesterol: response.nutrition.nutrients.find(
-          (n: any) => n.name === 'Cholesterol'
-        )?.amount,
-        protein: response.nutrition.nutrients.find(
-          (n: any) => n.name === 'Protein'
-        )?.amount,
-      },
-    };
-  } /*
+
+  /*
   constructor() {
     this.recipe = {
       id: 324694,
@@ -122,25 +82,4 @@ export class RecipeContentComponent {
       },
     };
   }*/
-}
-
-interface Recipe {
-  id: number;
-  name: string;
-  image: string;
-  description: string;
-  prepTime: number;
-  cookTime: number;
-  servings: number;
-  ingredients: string[];
-  instructions: string[];
-  nutritionFacts: {
-    calories: number;
-    fat: number;
-    saturatedFat: number;
-    carbohydrates: number;
-    sugar: number;
-    cholesterol: number;
-    protein: number;
-  };
 }
