@@ -58,7 +58,7 @@
     <!-- Sidebar -->
     <div>
       <div
-        class="w-full max-w-sm  bg-light_green rounded-lg shadow justify-items-center font-inter text-sm text-gris"
+        class="w-full max-w-sm bg-light_green rounded-lg shadow justify-items-center font-inter text-sm text-gris"
       >
         <!-- Nutrition Facts -->
         <div class="flex-col justify-between font-inter p-8">
@@ -111,32 +111,22 @@
       </div>
       <!-- Fresh Recipes -->
       <div class="flex-col justify-between font-inter p-8">
-        <h2 class="font-playfair text-main font-semibold text-4xl py-3" >Fresh Recipes</h2>
-        <ul class="grid grid-cols-2 gap-4">
-          <li class="grid grid-cols-2 gap-4">
-            <img class="w-32 h-32 object-cover"src="../../../assets/recipe/apple_pie.jpg" alt="Apple Pie"/>
-            <p>Apple Pie <br>★★★★★</p>
-          </li>
-          <li class="grid grid-cols-2 gap-4">
-            <img class="w-32 h-32 object-cover"src="../../../assets/recipe/cake.jpg" alt="Birthday Cake" />
-            <p>Birthday Cake <br>★★★★★</p>
-          </li>
-          <li class="grid grid-cols-2 gap-4">
+        <h2 class="font-playfair text-main font-semibold text-4xl py-3">
+          Fresh Recipes
+        </h2>
+        <ul
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        >
+          @for (random of randomRecipes ; track random.id){ @if(random.image){
+          <li class="flex flex-col items-center">
             <img
-            class="w-32 h-32 object-cover"
-              src="../../../assets/recipe/tomato_pasta.jpg"
-              alt="Tomato Pasta"
+              class="w-full h-32 object-cover sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56"
+              src="{{ random.image }}"
+              alt="{{ random.name }}"
             />
-            <p>Tomato Pasta <br>★★★★★</p>
+            <p class="text-center mt-2">{{ random.name }} <br />★★★★★</p>
           </li>
-          <li class="grid grid-cols-2 gap-4">
-            <img
-            class="w-32 h-32 object-cover"
-              src="../../../assets/recipe/fresh_salad.webp"
-              alt="Fresh Salad"
-            />
-            <p>Fresh Salad ★★★★★</p>
-          </li>
+          }}
         </ul>
       </div>
     </div>
