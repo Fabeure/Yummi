@@ -16,7 +16,8 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    component: ProfileComponent,
+    loadComponent: () =>
+      import('./pages/profile/profile.component').then((m) => m.ProfileComponent),
   },
   {
     path: 'recipe',

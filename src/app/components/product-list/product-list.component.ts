@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MealCardComponent } from '../meal-card/meal-card.component';
 import { ProductItem } from '../../shared/mock-data/mockData';
@@ -16,6 +16,7 @@ export class ProductListComponent {
   @Input() items: ProductItem[] = [];
   @Input() showLoadMore = false;
   @Output() loadMore = new EventEmitter<void>();
+  loading = signal(false);
 
   trackByIndex(index: number, _: ProductItem): number {
     return index;
@@ -23,6 +24,10 @@ export class ProductListComponent {
 
   onLoadMoreClick(): void {
     this.loadMore.emit();
+    this.loading.set(true); 
+    setTimeout(() => {
+      this.loading.set(false);
+    }, 1000);
   }
 
 
