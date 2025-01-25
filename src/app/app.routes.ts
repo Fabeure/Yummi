@@ -4,27 +4,34 @@ import { TestSearchComponent } from './pages/test-search/test-search.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RecipeComponent } from './recipe/recipe.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
+import { APP_ROUTES } from '../config/routes.config';
+import { RecipeResolver } from './resolvers/recipe.resolver';
+import { resolve } from 'node:path';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: APP_ROUTES.home,
     component: HomeComponent,
   },
   {
-    path: 'test',
+    path: APP_ROUTES.test,
     component: TestSearchComponent,
   },
   {
-    path: 'profile',
+    path: APP_ROUTES.profile,
     loadComponent: () =>
       import('./pages/profile/profile.component').then((m) => m.ProfileComponent),
   },
   {
-    path: 'recipe',
+    path: APP_ROUTES.recipe,
     component: RecipeComponent,
+    resolve: {
+      recipe: RecipeResolver
+    }
+
   },
   {
-    path: 'categories',
+    path: APP_ROUTES.categories,
     component: CategoriesComponent,
-  }
+  },
 ];

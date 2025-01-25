@@ -1,39 +1,13 @@
 <div class="p-8 mx-[10%]">
-    <div class="suggestions">
+  <div class="suggestions">
     <h2 class="text-main">You might also like</h2>
     <div class="suggestions-grid">
-        <div class="suggestion-item">
-        <img src="../../../assets/recipe/fresh_salad.webp" alt="Recipe 1" />
-        <p>Recipe Title 1</p>
-        </div>
-        <div class="suggestion-item">
-        <img src="../../../assets/recipe/fresh_salad.webp" alt="Recipe 2" />
-        <p>Recipe Title 2</p>
-        </div>
-        <div class="suggestion-item">
-        <img src="../../../assets/recipe/fresh_salad.webp" alt="Recipe 3" />
-        <p>Recipe Title 3</p>
-        </div>
-        <div class="suggestion-item">
-        <img src="../../../assets/recipe/fresh_salad.webp" alt="Recipe 4" />
-        <p>Recipe Title 4</p>
-        </div>
-        <div class="suggestion-item">
-        <img src="../../../assets/recipe/fresh_salad.webp" alt="Recipe 5" />
-        <p>Recipe Title 5</p>
-        </div>
-        <div class="suggestion-item">
-        <img src="../../../assets/recipe/fresh_salad.webp" alt="Recipe 6" />
-        <p>Recipe Title 6</p>
-        </div>
-        <div class="suggestion-item">
-        <img src="../../../assets/recipe/fresh_salad.webp" alt="Recipe 7" />
-        <p>Recipe Title 7</p>
-        </div>
-        <div class="suggestion-item">
-        <img src="../../../assets/recipe/fresh_salad.webp" alt="Recipe 8" />
-        <p>Recipe Title 8</p>
-        </div>
+      @for(recipe of recipes ; track recipe.id){ @if(recipe.image){
+      <div class="suggestion-item">
+        <img src="{{ recipe.image }}" alt="{{ recipe.name }}" />
+        <p>{{ recipe.name }}</p>
+      </div>
+      }}
     </div>
-    </div>
+  </div>
 </div>

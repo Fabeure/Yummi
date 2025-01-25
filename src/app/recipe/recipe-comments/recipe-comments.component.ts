@@ -11,6 +11,7 @@ import { response } from 'express';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecipeCommentsComponent {
+  
   comments = [
     {
       id: 1,
