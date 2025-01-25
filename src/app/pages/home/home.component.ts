@@ -29,7 +29,7 @@ export class HomeComponent {
   //   this.lazyloadRandomRecipes(6);
   // }
   lazyLoadRandomRecipes(num: number): void {
-    this.recipesService.getRandomRecipe(num).subscribe(response => {
+    this.recipesService.getRandomRecipesWithCookTime(num).subscribe(response => {
       this.Meals.set(response);
     });
   }
