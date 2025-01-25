@@ -6,8 +6,9 @@ import { RecipeComponent } from './recipe/recipe.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { APP_ROUTES } from '../config/routes.config';
 import { RecipeResolver } from './resolvers/recipe.resolver';
-import { resolve } from 'node:path';
-
+import { MealPlanComponent } from './pages/meal-plan/meal-plan.component';
+import { MealPlanResultComponent } from './pages/meal-plan-result/meal-plan-result.component';
+import { MealPlanResolver } from './resolvers/mealplan.resolver';
 export const routes: Routes = [
   {
     path: APP_ROUTES.home,
@@ -33,4 +34,15 @@ export const routes: Routes = [
     path: APP_ROUTES.categories,
     component: CategoriesComponent,
   },
+  {
+    path: APP_ROUTES.mealplan,
+    component: MealPlanComponent,
+  },
+  {
+    path: APP_ROUTES.mealresult,
+    component: MealPlanResultComponent,
+    resolve :{
+      mealPlan: MealPlanResolver
+    }
+  }
 ];

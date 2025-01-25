@@ -1,0 +1,119 @@
+<div
+  class="h-screen bg-cover bg-center flex items-center justify-center mt-28"
+  style="background-image: url('mealplaner.jpg')"
+>
+
+  <!-- Formulaire centré -->
+  <div
+    class="rounded-lg shadow-lg p-8 w-full max-w-2xl"
+    style="background-color: #FFFBF3" 
+  >
+    <h1 class="text-2xl font-bold text-main mb-6 font-playfair">Meal Planner</h1>
+
+    <form class="space-y-6" [formGroup]="form">
+      <!-- Time Frame -->
+      <div class="space-y-4">
+        <div class="flex justify-center items-center gap-8">
+          <div class="flex items-center space-x-2">
+            <input
+              type="radio"
+              id="day"
+              name="timeFrame"
+              formControlName="timeFrame"
+              value="day"
+              class="form-radio text-main focus:ring-main w-5 h-5 transition duration-200 ease-in-out"
+            />
+            <label for="day" class="text-lg text-gris cursor-pointer font-inter"
+              >Day</label
+            >
+          </div>
+          <div class="flex items-center space-x-2">
+            <input
+              type="radio"
+              id="week"
+              name="timeFrame"
+              formControlName="timeFrame"
+              value="week"
+              class="form-radio text-main focus:ring-main w-5 h-5 transition duration-200 ease-in-out"
+            />
+            <label for="week" class="text-lg text-gris cursor-pointer font-inter"
+              >Week</label
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Target Calories -->
+      <div class="p-4 bg-gris_clair rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-main mb-2 font-playfair">Target Calories</h2>
+        <input
+          id="targetCalories"
+          type="number"
+          formControlName="targetCalories"
+          placeholder="Enter target calories"
+          class="block w-full border-gris rounded-md shadow-sm focus:ring-main focus:border-main p-2"
+        />
+      </div>
+
+      <!-- Diet -->
+      <div class="p-4 bg-gris_clair rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-main mb-4 font-playfair">Preferred Diet</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div
+            class=" diet-card border-2 border-gray-300 bg-white rounded-lg  flex flex-col items-center cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 p-1"
+            *ngFor="let diet of diets"
+            (click)="selectDiet(diet)"
+            [ngClass]="{
+              'border-main bg-light_green shadow-md scale-105 ':
+                diet.name === (form.get('diet')?.value ?? ''),
+            }"
+          >
+            <img
+              [src]="diet.icon"
+              [alt]="diet.name"
+              class="w-12 h-12 mb-3 transition-transform duration-300 group-hover:scale-110 "
+            />
+            <span
+              [ngClass]="{
+                'text-main font-bold': diet.name === (form.get('diet')?.value ?? ''),
+                'text-gris font-medium':diet.name === (form.get('diet')?.value ?? '')
+              }"
+              class="text-sm font-inter"
+            >
+              {{ diet.name }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exclude Ingredients -->
+      <div class="p-4 bg-gris_clair rounded-lg shadow">
+        <label
+          for="exclude"
+          class="text-xl font-semibold text-main mb-4 font-playfair"
+          >Exclude Ingredients</label
+        >
+        <input
+          id="exclude"
+          type="text"
+          formControlName="exclude"
+          placeholder="e.g., shellfish, olives"
+          class="block w-full border-gris rounded-md shadow-sm focus:ring-main focus:border-main p-2"
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-right">
+        <button
+         (click)="submitForm()"
+         [disabled]="form.invalid"
+         type="submit"
+          class="px-6 py-3 bg-main text-white rounded-lg shadow-md hover:bg-darker_main focus:outline-none focus:ring-2 focus:ring-main"
+          [ngClass]="{ 'opacity-50 cursor-not-allowed': form.invalid}"
+        >
+          Generate Meal Plan
+        </button>
+      </div>
+    </form>
+  </div>
+
