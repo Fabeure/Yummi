@@ -10,7 +10,9 @@ export class MealCardComponent {
   @Input() title!: string;
   @Input() username!: string;
   @Input() image!: string;
-  @Input() userImage!: string;
-  @Input() date!: string;
-  @Input() comments!: string;
+  @Input() time!: number;
+  //constructor(){console.log(this.time)};
+  // @Input() userImage!: string;
+  // @Input() date!: string;
+  // @Input() comments!: string;
 }
