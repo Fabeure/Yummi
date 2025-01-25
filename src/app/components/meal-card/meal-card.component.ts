@@ -11,8 +11,9 @@ export class MealCardComponent {
   @Input() username!: string;
   @Input() image!: string;
   @Input() time!: number;
-  //constructor(){console.log(this.time)};
-  // @Input() userImage!: string;
-  // @Input() date!: string;
-  // @Input() comments!: string;
+  rating: number = 0;
+
+  ngOnInit(): void {
+    this.rating = Math.floor(Math.random() * 4) + 2; // Generate a random rating between 1 and 5
+  }
 }
