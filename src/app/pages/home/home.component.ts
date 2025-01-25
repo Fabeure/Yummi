@@ -25,9 +25,7 @@ export class HomeComponent {
   Meals= signal<Recipe[]>([]);
   
   constructor(private http: HttpClient, private router: Router,private recipesService: RecipeService) {}
-  // ngOnInit() {
-  //   this.lazyloadRandomRecipes(6);
-  // }
+  
   lazyLoadRandomRecipes(num: number): void {
     this.recipesService.getRandomRecipesWithCookTime(num).subscribe(response => {
       this.Meals.set(response);
