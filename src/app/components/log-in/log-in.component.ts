@@ -38,7 +38,7 @@ export class LogInComponent {
     this.authService.user$.subscribe({
       next: () => {
         this.onClose();  // Close the form
-        this.router.navigate(['/']);  // Redirect to home or another page
+        //this.router.navigate(['/']);  // Redirect to home or another page
       },
       error: (err) => {
         alert('Check console');
