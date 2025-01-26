@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Recipe } from '../recipe/recipe.model';
+import { Recipe } from '../models/recipe.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,20 @@ export class RecipeService {
       map(response => this.mapToRecipe(response))
     );
   }
-
+  getRandomRecipesWithCookTime(num: number): Observable<Recipe[]> {
+    const URL = `https://api.spoonacular.com/recipes/random?number=${num}&apiKey=${environment.apiKey}`;
+    return this.http.get<any>(URL).pipe(
+      map(response => this.mapRandomRecipes(response)),
+      map(recipes => {
+        return recipes.map(recipe => {
+          if (recipe.cookTime === null) {
+            recipe.cookTime = 30; 
+          }
+          return recipe;
+        });
+      })
+    );
+  }
   getRandomRecipe(num: number): Observable<Recipe[]> {
     const URL = `https://api.spoonacular.com/recipes/random?number=${num}&apiKey=${environment.apiKey}`;
     return this.http.get<any>(URL).pipe(

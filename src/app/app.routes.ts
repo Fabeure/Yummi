@@ -9,6 +9,7 @@ import { RecipeResolver } from './resolvers/recipe.resolver';
 import { MealPlanComponent } from './pages/meal-plan/meal-plan.component';
 import { MealPlanResultComponent } from './pages/meal-plan-result/meal-plan-result.component';
 import { MealPlanResolver } from './resolvers/mealplan.resolver';
+import { LoginGuard } from './guards/route.guard';
 export const routes: Routes = [
   {
     path: APP_ROUTES.home,
@@ -21,6 +22,7 @@ export const routes: Routes = [
   {
     path: APP_ROUTES.profile,
     component: ProfileComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: APP_ROUTES.recipe,

@@ -1,9 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { fetchItemsFromApi, ProductItem } from '../../shared/mock-data/mockData';
 import { ProductListComponent } from "../../components/product-list/product-list.component";
 import { categories } from '../../shared/mock-data/mockData';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/authentication.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './profile.component.css',
   standalone: true,
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   fullName = 'Saboua Abd';
   username = 'Miller';
@@ -24,11 +26,23 @@ export class ProfileComponent implements OnInit {
   page = 1;
   pageSize = 8;
   total = 0;
+  user: any; // Store the user data
+  userSubscription: Subscription = new Subscription();
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(private cdr: ChangeDetectorRef, private authService: AuthService) { }
 
-  async ngOnInit(): Promise<void> {
-    await this.loadPage(this.page);
+  async ngOnInit() {
+    this.userSubscription = this.authService.user$.subscribe(user => {
+      console.log('User data updated:', user);
+    });
+    this.loadPage(this.page);
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe from the user observable to prevent memory leaks
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
   saveProfile() {
@@ -75,6 +89,4 @@ export class ProfileComponent implements OnInit {
     this.page++;
     this.loadPage(this.page);
   }
-
 }
-
