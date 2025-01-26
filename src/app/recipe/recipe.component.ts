@@ -7,7 +7,7 @@ import { RecipeSuggestionsComponent } from "./recipe-suggestions/recipe-suggesti
 
 @Component({
   selector: 'app-recipe',
-  imports: [RecipeHeaderComponent, RecipeContentComponent, RecipeFooterComponent, RecipeCommentsComponent, RecipeSuggestionsComponent],
+  imports: [ RecipeContentComponent, RecipeFooterComponent, RecipeCommentsComponent, RecipeSuggestionsComponent],
   templateUrl: './recipe.component.html',
   styleUrl: './recipe.component.css'
 })

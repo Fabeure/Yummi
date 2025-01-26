@@ -16,11 +16,10 @@
   </p>
 </div>
 
-<div class="flex flex-wrap px-4 md:px-16 lg:px-20">
-  @for(mealPlan of Meals() ; track mealPlan){
-  <div class="w-full sm:w-1/2 md:w-1/3 flex justify-between p-2">
-    <app-meal-card [title]="mealPlan.title" [image]="mealPlan.image" [comments]="mealPlan.comments"
-      [userImage]="mealPlan.userImage" [username]="mealPlan.username" [date]="mealPlan.date"></app-meal-card>
+<div class="flex flex-wrap px-4 md:px-16 lg:px-20" appLazyLoad (lazyLoad)="lazyLoadRandomRecipes(6)">
+  @for(meal of Meals() ; track meal){
+  <div class="w-full sm:w-1/2 md:w-1/3 flex justify-between p-2" >
+    <app-meal-card [title]="meal.name" [image]="meal.image" [time]="meal.cookTime"></app-meal-card>
   </div>
   }
 </div>

@@ -10,7 +10,10 @@ export class MealCardComponent {
   @Input() title!: string;
   @Input() username!: string;
   @Input() image!: string;
-  @Input() userImage!: string;
-  @Input() date!: string;
-  @Input() comments!: string;
+  @Input() time!: number;
+  rating: number = 0;
+
+  ngOnInit(): void {
+    this.rating = Math.floor(Math.random() * 4) + 2; // Generate a random rating between 1 and 5
+  }
 }
