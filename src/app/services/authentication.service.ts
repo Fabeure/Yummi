@@ -34,8 +34,9 @@ export class AuthService {
           if (res?.success) {
             const { accessToken, email, userId, name } = res;
   
-            localStorage.setItem('accessToken', accessToken);
-  
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('accessToken', accessToken);
+            }  
             this.userSubject.next({ email, userId, name }); // Emit updated user data
             console.log("done emitting user data")
             //this.router.navigate(['/profile']);
@@ -54,13 +55,17 @@ export class AuthService {
 
   // Check if the user is logged in (based on presence of access token)
   isLoggedIn(): boolean {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return localStorage && !!localStorage.getItem('accessToken');
   }
 
   // Logout method (clear the user data and token)
   logout(): void {
-    localStorage.removeItem('accessToken');
-    this.userSubject.next(null);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('accessToken');
+    }    this.userSubject.next(null);
     //this.router.navigate(['/']);
   }
 }
