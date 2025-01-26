@@ -5,7 +5,7 @@
         <img [src]="item.imageSrc" [alt]="item.title" class="slider-image">
         <div class="slider-content flex justify-between w-5/6">
             <h2 class="slider-title font-playfair font-extrabold text-3xl text-bg_fonce flex w-1/2">{{ item.title }}</h2>
-            <a [href]="item.link" class="slider-link font-playfair font-extrabold text-xl text-bg_fonce">Discover</a>
+            <a [routerLink]="item.link" class="slider-link font-playfair font-extrabold text-xl text-bg_fonce">Discover</a>
         </div>
         </div>}
     </div>

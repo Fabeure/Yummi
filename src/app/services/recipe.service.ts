@@ -72,7 +72,7 @@ export class RecipeService {
    * @returns An Observable of SpoonacularSearchResponse
    */
    getRecipes(offset: number, pageSize: number): Observable<SpoonacularSearchResponse> {
-    const url = `${environment.apiUrl}/recipes/complexSearch?apiKey=${environment.apiKey}&offset=${offset}&number=${pageSize}&addRecipeInformation=true`;
+    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${environment.apiKey}&offset=${offset}&number=${pageSize}&addRecipeInformation=true`;
     return this.http.get<SpoonacularSearchResponse>(url);
   }
 

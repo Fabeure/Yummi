@@ -10,7 +10,8 @@ import { DIET_IMAGES } from './diet.const';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../models/recipe.model';
 import { RecipeGridComponent } from '../../components/recipe-grid/RecipeGrid.component';
-//import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
+import { APP_ROUTES } from '../../../config/routes.config';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ import { RecipeGridComponent } from '../../components/recipe-grid/RecipeGrid.com
   standalone: true,
 })
 export class HomeComponent {
-  private readonly apiKey = "environment.apiKey";
+  private readonly apiKey = environment.apiKey;
+  routes=APP_ROUTES;
   MealPlans = signal<{ title: string; recipes: string; image: string }[]>([]);
   Meals= signal<Recipe[]>([]);
   
@@ -77,27 +79,27 @@ export class HomeComponent {
     {
       imageSrc: '/slider/macron.jpg',
       title: 'French Macarons',
-      link: '#',
+      link: this.routes.test,
     },
     {
       imageSrc: '/slider/cookies.jpg',
       title: 'Chocolate Chip Cookies',
-      link: '#',
+      link: this.routes.test,
     }, 
     {
       imageSrc: '/slider/healthy_salad.jpg',
       title: 'Healthy Salad',
-      link: '#',
+      link: this.routes.test,
     },
     {
       imageSrc: '/slider/healthy.jpg',
       title: 'Healthy Bowl',
-      link: '#',
+      link: this.routes.test,
     },
     {
       imageSrc: '/slider/dessert.jpg',
       title: 'Appetizer Board',
-      link: '#',
+      link: this.routes.test,
     },
   ];
   categories = [
