@@ -38,7 +38,7 @@ export class AuthService {
   
             this.userSubject.next({ email, userId, name }); // Emit updated user data
             console.log("done emitting user data")
-            this.router.navigate(['/profile']);
+            //this.router.navigate(['/profile']);
           } else {
             console.log('Login failed:', res?.message);
           }
@@ -61,6 +61,6 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('accessToken');
     this.userSubject.next(null);
-    this.router.navigate(['/']);
+    //this.router.navigate(['/']);
   }
 }

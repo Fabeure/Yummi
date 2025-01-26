@@ -9,7 +9,7 @@ import { HttpClient, provideHttpClient} from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { DIET_IMAGES } from './diet.const';
 import { RecipeService } from '../../services/recipe.service.service';
-import { Recipe } from '../../recipe/recipe.model';
+import { Recipe } from '../../models/recipe.model';
 //import { environment } from '../../../environments/environment';
 
 @Component({
