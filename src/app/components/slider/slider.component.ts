@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 export interface SliderImages {
   imageSrc: string;
   title: string;
@@ -6,7 +7,7 @@ export interface SliderImages {
 }
 @Component({
   selector: 'app-slider',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './slider.component.html',
   styleUrl: './slider.component.css',
   standalone: true

@@ -1,13 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { Recipe } from '../recipe.model';
-import { RecipeService } from '../../services/recipe.service.service';
+import { Recipe } from '../../models/recipe.model';
+import { RecipeService } from '../../services/recipe.service';
+import { CommonModule } from '@angular/common';
+import { LogInComponent } from '../../components/log-in/log-in.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthorizationService } from '../../services/authorisation.service';
 
 @Component({
   selector: 'app-recipe-content',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './recipe-content.component.html',
   styleUrl: './recipe-content.component.css',
 })
@@ -15,15 +19,35 @@ export class RecipeContentComponent {
   recipe: Recipe | null = null;
   randomRecipes: Recipe[] = [];
   route = inject(ActivatedRoute);
+  router = inject(Router);
   recipeService = inject(RecipeService);
+  liked = false;
+  dialog = inject(MatDialog);
+  authorisationService = inject(AuthorizationService);
   ngOnInit() {
     this.route.data.subscribe((data) => {
       this.recipe = data['recipe'];
     });
     this.recipeService.getRandomRecipe(4).subscribe((recipes) => {
       this.randomRecipes = recipes;
-      console.log("thsi is recipes ", recipes)
+      console.log('thsi is recipes ', recipes);
     });
+  }
+  likeRecipe() {
+    console.log('authentificated', this.authorisationService.isLoggedIn());
+    // if not liked and ot authentificated
+    if (!this.liked) {
+      if(!this.authorisationService.isLoggedIn()){
+      const dialogRef = this.dialog.open(LogInComponent, {
+        width: '500px',
+        disableClose: true, 
+      });}
+      else{
+        this.liked = true;
+      }
+      // add this recipe to likes
+    }
+    // else delete it from like
   }
 
   /*

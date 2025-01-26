@@ -2,10 +2,10 @@
 <div class=" px-4 md:px-16 lg:px-28 mt-8">
   <h2 class="text-main text-3xl md:text-4xl lg:text-5xl font-playfair">Popular Categories</h2>
   <div class="flex items-center justify-center gap-6 overflow-x-auto scroll-smooth">
-    @for (category of categories; track $index) {
+    @for (category of visibleCategories; track $index) {
     <app-category [category]="category"></app-category>
     }
-    <a [routerLink]="['categories']">
+    <a (click)="rotateCategories()">
       <img src="arrow.png" alt="arrow" class="w-8 h-8">
     </a>
   </div>
@@ -17,13 +17,9 @@
 </div>
 
 <div class="flex flex-wrap px-4 md:px-16 lg:px-20">
-  @for(mealPlan of Meals() ; track mealPlan){
-  <div class="w-full sm:w-1/2 md:w-1/3 flex justify-between p-2">
-    <app-meal-card [title]="mealPlan.title" [image]="mealPlan.image" [comments]="mealPlan.comments"
-      [userImage]="mealPlan.userImage" [username]="mealPlan.username" [date]="mealPlan.date"></app-meal-card>
-  </div>
-  }
+  <app-recipe-grid displayMode="showMore"></app-recipe-grid>
 </div>
+
 <div class="flex px-4 md:px-16 lg:px-28">
   <p class="text-main text-3xl md:text-4xl lg:text-5xl font-playfair">
     Meal plans

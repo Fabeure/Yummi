@@ -11,12 +11,6 @@ export interface Category {
   standalone: true
 })
 export class CategoryComponent {
-  // categories = [
-  //   { name: 'Pizza', image: 'categories/pizza.jpg' },
-  //   { name: 'Pasta', image: 'categories/pasta.jpg' },
-  //   { name: 'Smoothie', image: 'categories/smoothie.webp' },
-  //   { name: 'Vegan', image: 'categories/vegan.jpg' },
-  //   { name: 'Dessert', image: 'categories/dessert.jpg' }
-  // ];
+
   @Input() category!: Category;
 }

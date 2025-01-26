@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Recipe } from '../recipe/recipe.model';
+import { Recipe, SpoonacularSearchResponse } from '../models/recipe.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,20 @@ export class RecipeService {
     );
   }
 
+  getRandomRecipesWithCookTime(num: number): Observable<Recipe[]> {
+    const URL = `https://api.spoonacular.com/recipes/random?number=${num}&apiKey=${environment.apiKey}`;
+    return this.http.get<any>(URL).pipe(
+      map(response => this.mapRandomRecipes(response)),
+      map(recipes => {
+        return recipes.map(recipe => {
+          if (recipe.cookTime === null) {
+            recipe.cookTime = 30; 
+          }
+          return recipe;
+        });
+      })
+    );
+  }
   getRandomRecipe(num: number): Observable<Recipe[]> {
     const URL = `https://api.spoonacular.com/recipes/random?number=${num}&apiKey=${environment.apiKey}`;
     return this.http.get<any>(URL).pipe(
@@ -34,6 +48,9 @@ export class RecipeService {
       prepTime: response.preparationMinutes,
       cookTime: response.cookingMinutes,
       servings: response.servings,
+      vegan: response.vegan,
+      readyInMinutes: response.readyInMinutes,
+      title: response.title,
       ingredients: response.extendedIngredients.map((i: any) => i.original),
       instructions: response.analyzedInstructions[0]?.steps.map((s: any) => s.step) || [],
       nutritionFacts: {
@@ -46,6 +63,17 @@ export class RecipeService {
         protein: response.nutrition?.nutrients.find((n: any) => n.name === 'Protein')?.amount || 0,
       },
     };
+  }
+
+   /**
+   * Retrieve recipes from the Spoonacular complexSearch endpoint.
+   * @param offset The offset for pagination (0, 10, 20, ...)
+   * @param pageSize How many items to fetch at once (e.g. 10)
+   * @returns An Observable of SpoonacularSearchResponse
+   */
+   getRecipes(offset: number, pageSize: number): Observable<SpoonacularSearchResponse> {
+    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${environment.apiKey}&offset=${offset}&number=${pageSize}&addRecipeInformation=true`;
+    return this.http.get<SpoonacularSearchResponse>(url);
   }
 
   private mapRandomRecipes(response: any): Recipe[] {

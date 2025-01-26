@@ -3,7 +3,9 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { SignUpComponent } from '../sign-up/sign-up.component';
-import { sign } from 'crypto';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/authentication.service';
+
 @Component({
   selector: 'app-log-in',
   imports: [FormsModule, ReactiveFormsModule, MatIconModule],
@@ -14,18 +16,38 @@ import { sign } from 'crypto';
 export class LogInComponent {
  form: any;
   constructor(private dialogRef: MatDialogRef<LogInComponent>, 
-    private formBuilder: FormBuilder,private dialogSignUp: MatDialog) {
+    private formBuilder: FormBuilder,private dialogSignUp: MatDialog,
+    private authService: AuthService,
+    private router: Router // To navigate after login
+  ) {
     this.form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });}
 
-
   onSubmit() {
-    // Logique de connexion ici (ex. API call)
-    console.log(this.form.value);
-    this.dialogRef.close();
+    if (this.form.invalid) return;
+  
+    const { email, password } = this.form.value;
+    console.log(email, password);
+  
+    // Call the login method, subscribe to the result, and handle success and error
+    this.authService.login(email, password);
+  
+    // On successful login, close the form and navigate
+    this.authService.user$.subscribe({
+      next: () => {
+        this.onClose();  // Close the form
+        //this.router.navigate(['/']);  // Redirect to home or another page
+      },
+      error: (err) => {
+        alert('Check console');
+        console.error(err); // Log error details for debugging
+      }
+    });
   }
+  
+
   onClose()
   {
     this.dialogRef.close();
