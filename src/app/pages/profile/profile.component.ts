@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { fetchItemsFromApi, ProductItem } from '../../shared/mock-data/mockData';
-import { ProductListComponent } from "../../components/product-list/product-list.component";
+import { RecipeGridComponent } from "../../components/recipe-grid/RecipeGrid.component";
 import { categories } from '../../shared/mock-data/mockData';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/authentication.service';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
-  imports: [FormsModule, ProductListComponent, CommonModule],
+  imports: [FormsModule,  CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
   standalone: true,

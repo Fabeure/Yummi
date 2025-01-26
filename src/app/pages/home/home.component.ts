@@ -1,20 +1,20 @@
 import { Component, signal } from '@angular/core';
 import { MealPlanCardComponent } from '../../components/meal-plan-card/meal-plan-card.component';
-import { MealCardComponent } from "../../components/meal-card/meal-card.component";
 import { SliderComponent } from '../../components/slider/slider.component';
 import { SliderImages } from '../../components/slider/slider.component';
 import { CategoryComponent } from '../../components/category/category.component';
 import { LazyLoadDirective } from '../../directives/lazy-load.directive';
-import { HttpClient, provideHttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { DIET_IMAGES } from './diet.const';
-import { RecipeService } from '../../services/recipe.service.service';
+import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../models/recipe.model';
+import { RecipeGridComponent } from '../../components/recipe-grid/RecipeGrid.component';
 //import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
-  imports: [MealPlanCardComponent, MealCardComponent, SliderComponent, CategoryComponent,LazyLoadDirective,RouterModule],
+  imports: [MealPlanCardComponent, SliderComponent, CategoryComponent,LazyLoadDirective,RouterModule , RecipeGridComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true,
