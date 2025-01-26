@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { ProductListComponent } from '../../components/product-list/product-list.component';
+import { RecipeGridComponent } from '../../components/recipe-grid/RecipeGrid.component';
 import { fetchItemsFromApi, ProductItem } from '../../shared/mock-data/mockData';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   standalone: true,
   selector: 'app-test-search',
-  imports: [ProductListComponent],
+  imports: [RecipeGridComponent],
   templateUrl: './test-search.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

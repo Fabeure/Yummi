@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RecipeService } from '../../services/recipe.service.service';
+import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../../models/recipe.model';
 import { RANDOM } from '../../../config/routes.config';
 

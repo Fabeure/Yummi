@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Recipe } from '../../models/recipe.model';
-import { RecipeService } from '../../services/recipe.service.service';
+import { RecipeService } from '../../services/recipe.service';
 import { CommonModule } from '@angular/common';
 import { LogInComponent } from '../../components/log-in/log-in.component';
 import { MatDialog } from '@angular/material/dialog';
