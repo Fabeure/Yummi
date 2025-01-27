@@ -21,6 +21,35 @@ export class AuthService {
 
   constructor(private router: Router, private http: HttpClient) {}
 
+
+  register(username:string, email: string, password: string){
+    const registerData = {
+      Email: email,
+      Username: username,
+      Password:password,
+    };
+
+    this.http
+    .post(`${this.apiUrl}/api/v1/authenticate/register`, registerData)
+    .pipe(
+      map((res: any) => {
+        if (res?.success) {
+          const { accessToken } = res;
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('accessToken', accessToken);
+          }
+          this.router.navigate(['/'])
+        } else {
+          console.log('Register failed:', res?.message);
+        }
+      }),
+      catchError((err) => {
+        console.error('Login error:', err);
+        return [];
+      })
+    )
+    .subscribe();
+  }
   login(email: string, password: string) {
     const loginData = {
       Email: email,
@@ -58,7 +87,7 @@ export class AuthService {
     if (typeof window === 'undefined') {
       return false;
     }
-    return localStorage && !!localStorage.getItem('accessToken');
+    return localStorage && !!localStorage.getItem('accessToken') && !(localStorage.getItem('accessToken') == 'undefined');
   }
 
   // Logout method (clear the user data and token)
