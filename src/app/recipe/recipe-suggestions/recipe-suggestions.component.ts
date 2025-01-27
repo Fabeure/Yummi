@@ -13,7 +13,7 @@ export class RecipeSuggestionsComponent {
   recipeService = inject(RecipeService);
   recipes: Recipe[] | null = [];
   constructor() {
-    
+   
     this.recipeService.getRandomRecipe(RANDOM).subscribe((data) => {
       this.recipes = data;
     });
