@@ -18,7 +18,6 @@ export class LogInComponent {
   constructor(private dialogRef: MatDialogRef<LogInComponent>, 
     private formBuilder: FormBuilder,private dialogSignUp: MatDialog,
     private authService: AuthService,
-    private router: Router // To navigate after login
   ) {
     this.form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
