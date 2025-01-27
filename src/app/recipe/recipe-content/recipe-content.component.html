@@ -21,7 +21,7 @@
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           [attr.fill]="
-            liked && (this.authorisationService.isLoggedIn() || (user$ | async))
+            liked && (this.authorisationService.isLoggedIn() || (user$ ))
               ? 'red'
               : 'none'
           "
