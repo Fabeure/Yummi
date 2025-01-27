@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { LogInComponent } from '../../components/log-in/log-in.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthorizationService } from '../../services/authorisation.service';
+import { AuthService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-recipe-content',
@@ -21,7 +22,10 @@ export class RecipeContentComponent {
   route = inject(ActivatedRoute);
   router = inject(Router);
   recipeService = inject(RecipeService);
+  authService = inject(AuthService);
   liked = false;
+  user$ = this.authService.user$;
+
   dialog = inject(MatDialog);
   authorisationService = inject(AuthorizationService);
   ngOnInit() {
@@ -37,12 +41,12 @@ export class RecipeContentComponent {
     console.log('authentificated', this.authorisationService.isLoggedIn());
     // if not liked and ot authentificated
     if (!this.liked) {
-      if(!this.authorisationService.isLoggedIn()){
-      const dialogRef = this.dialog.open(LogInComponent, {
-        width: '500px',
-        disableClose: true, 
-      });}
-      else{
+      if (!this.authorisationService.isLoggedIn()) {
+        const dialogRef = this.dialog.open(LogInComponent, {
+          width: '500px',
+          disableClose: true,
+        });
+      } else {
         this.liked = true;
       }
       // add this recipe to likes

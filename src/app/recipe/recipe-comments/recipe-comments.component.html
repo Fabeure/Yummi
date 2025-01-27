@@ -14,7 +14,7 @@
       @for(comment of comments ; track $index) {
       <app-comment [comment]="comment" />
       } 
-      @if((this.user$ | async )){
+      @if((this.user$| async )||(this.authorisationService.isLoggedIn())){
       <form class="mb-6" [formGroup]="form">
         <div
           class="py-2 px-4 mb-4 bg-light_green rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700"

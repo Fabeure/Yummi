@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './profile.component.css',
   standalone: true,
 })
-export class ProfileComponent implements OnInit, OnDestroy {
+export class ProfileComponent {
 
   fullName = 'Saboua Abd';
   username = 'Miller';
@@ -31,19 +31,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(private cdr: ChangeDetectorRef, private authService: AuthService) { }
 
-  async ngOnInit() {
-    this.userSubscription = this.authService.user$.subscribe(user => {
-      console.log('User data updated:', user);
-    });
-    this.loadPage(this.page);
-  }
-
-  ngOnDestroy(): void {
-    // Unsubscribe from the user observable to prevent memory leaks
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
-  }
 
   saveProfile() {
     console.log('Profile saved:', {
