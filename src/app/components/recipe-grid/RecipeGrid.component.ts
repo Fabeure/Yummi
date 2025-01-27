@@ -1,7 +1,6 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, computed, signal, OnInit } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, computed, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MealCardComponent } from '../meal-card/meal-card.component';
-import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs';
 import { Recipe, SpoonacularSearchResponse } from '../../models/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
@@ -23,6 +22,13 @@ export class RecipeGridComponent implements OnInit {
    * Switch between "showMore" or "pagination" display modes.
    */
   @Input() displayMode: 'showMore' | 'pagination' = 'showMore';
+
+
+  /**
+   * Optional: if provided, the component will display these recipes 
+   * directly and skip API fetching altogether.
+   */
+  @Input() recipesInput?: Recipe[] = [];
 
 
   readonly pageSize = 8; // We fetch 8 recipes per request
@@ -57,7 +63,13 @@ export class RecipeGridComponent implements OnInit {
   constructor(private recipeService: RecipeService) {}
 
   ngOnInit() {
-    this.fetchRecipes();
+    if (this.recipesInput && this.recipesInput.length > 0) {
+      this.recipesSignal.set(this.recipesInput);
+      this.totalResultsSignal.set(this.recipesInput.length);
+    } else {
+      // 2) Otherwise, fetch from the API as before
+      this.fetchRecipes();
+    }
   }
 
   private fetchRecipes(): void {
