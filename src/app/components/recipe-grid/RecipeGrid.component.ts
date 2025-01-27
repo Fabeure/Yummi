@@ -49,7 +49,7 @@ export class RecipeGridComponent implements OnInit {
   // We store our loaded recipes in a signal
   private recipesSignal = signal<Recipe[]>([]);
 
-  // Computed signals (Angular 16+) to read or derive from above signals
+
   recipes = computed(() => this.recipesSignal());
   currentOffset = computed(() => this.offsetSignal());
   currentPage = computed(() => this.pageSignal());
