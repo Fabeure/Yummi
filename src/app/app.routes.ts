@@ -25,7 +25,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/profile/profile/profile.component').then((m) => m.ProfileComponent),
     resolve: {
-      recipe: ProfileResolver
+      userData: ProfileResolver
     },
     canActivate: [LoginGuard]
   },

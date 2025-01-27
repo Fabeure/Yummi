@@ -4,12 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-
-export interface User {
-  email: string;
-  userId: string;
-  name: string;
-}
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,26 +14,29 @@ export class AuthService {
   private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) { }
 
   login(email: string, password: string) {
     const loginData = {
       Email: email,
       Password: password,
     };
-  
+
     this.http
       .post(`${this.apiUrl}/api/v1/authenticate/login`, loginData)
       .pipe(
         map((res: any) => {
           if (res?.success) {
-            const { accessToken, email, userId, name } = res;
-  
+            console.log('Login successful:', res);
+            const { accessToken, email, userId, name, favorites, profilePictureBase64, surname } = res;
+
             if (typeof window !== 'undefined') {
               localStorage.setItem('accessToken', accessToken);
-            }  
-            this.userSubject.next({ email, userId, name }); // Emit updated user data
-            console.log("done emitting user data")
+            }
+            this.userSubject.next({ email, userId, name, favorites, profilePictureBase64, surname }); // Emit updated user data
+            console.log("done emitting user data");
+            console.log("user data", this.userSubject.value);
+
             //this.router.navigate(['/profile']);
           } else {
             console.log('Login failed:', res?.message);
@@ -65,7 +63,7 @@ export class AuthService {
   logout(): void {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken');
-    }    this.userSubject.next(null);
+    } this.userSubject.next(null);
     //this.router.navigate(['/']);
   }
 }
