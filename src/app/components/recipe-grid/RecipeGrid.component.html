@@ -3,6 +3,7 @@
   <div class="grid gap-4 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
     <app-meal-card
       *ngFor="let recipe of recipes(); trackBy: trackByRecipeId"
+      [id]="recipe.id"
       [title]="recipe.title"
       [image]="recipe.image"
       [time]="recipe.readyInMinutes"
