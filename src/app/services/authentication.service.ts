@@ -8,6 +8,7 @@ export interface User {
   email: string;
   userId: string;
   name: string;
+  surname: string;
   favorites : string[];
 }
 
@@ -57,12 +58,12 @@ export class AuthService {
       .pipe(
         map((res: any) => {
           if (res?.success) {
-            const { accessToken, email, userId, name , favorites } = res;
+            const { accessToken, email, userId, name, surname, favorites } = res;
   
             if (typeof window !== 'undefined') {
               localStorage.setItem('accessToken', accessToken);
             }  
-            this.userSubject.next({ email, userId, name, favorites }); // Emit updated user data
+            this.userSubject.next({ email, userId, name, surname, favorites }); // Emit updated user data
             console.log("done emitting user data",{ email, userId, name, favorites })
             //this.router.navigate(['/profile']);
           } else {
@@ -89,5 +90,10 @@ export class AuthService {
       localStorage.removeItem('accessToken');
     }    this.userSubject.next(null);
     this.router.navigate(['/']);
+  }
+
+  updateUser(user: User): void {
+    console.log("nexting user:", user)
+    this.userSubject.next(user);
   }
 }

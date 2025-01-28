@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { ProfileService } from '../../pages/profile/profile.service';
+import { ProfileService } from '../../pages/profile/profile/profile.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +10,6 @@ export class ProfileResolver implements Resolve<any> {
 
   resolve(): any {
     const res = this.profileService.getUserData();
-    console.log("res", res);
     return res;
-
   }
 }

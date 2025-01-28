@@ -4,7 +4,7 @@ import { fetchItemsFromApi, ProductItem } from '../../../shared/mock-data/mockDa
 import { categories } from '../../../shared/mock-data/mockData';
 import { CommonModule } from '@angular/common';
 import { debounceTime, Subject, Subscription } from 'rxjs';
-import { ProfileService } from '../profile.service';
+import { ProfileService } from './profile.service';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeGridComponent } from '../../../components/recipe-grid/RecipeGrid.component';
 import { AuthService } from '../../../services/authentication.service';
@@ -55,6 +55,7 @@ export class ProfileComponent implements OnInit {
     this.resolvedData = this.route.snapshot.data['userData'];
     if (this.resolvedData) {
       this.userId = this.resolvedData.userId;
+      console.log('resolved data:', this.resolvedData)
       this.updateForm(this.resolvedData);
     }
     this.getFavoriteRecipeIds();
@@ -91,7 +92,6 @@ export class ProfileComponent implements OnInit {
       const token = localStorage.getItem('accessToken') || '';
 
       const user: applicationUser = {
-        userId: this.userId,
         Name: this.profileForm.name as string,
         Surname: this.profileForm.surname as string,
         Email: this.profileForm.email as string,
@@ -99,7 +99,7 @@ export class ProfileComponent implements OnInit {
         Favorites: this.favorites
       }
 
-      this.profileService.saveProfile(user, token, this.favorites).subscribe({
+      this.profileService.saveProfile(this.userId, user, token).subscribe({
         next: () => {
           console.log('Profile saved!');
         },
