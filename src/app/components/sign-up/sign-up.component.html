@@ -59,6 +59,23 @@
       >
         Sign In
       </button>
+      @if (form.get('password')?.invalid && form.get('password')?.touched) {
+        @if(form.get('password')?.hasError('required')){
+          <p class="text-sm text-red-500" >
+          Password is required.
+          </p>
+        }
+        @if(form.get('password')?.hasError('pattern')){
+          <p class="text-sm text-red-500">
+            Password must contain at least one uppercase letter, one lowercase letter, and one number.
+          </p>
+        }
+        @if(form.get('password')?.hasError('minlength')){
+          <p class="text-sm text-red-500">
+            Password must be at least 8 characters long.
+          </p>
+        }
+      }
     </form>
       <div class="mt-4 text-center">
         <p class="text-sm text-gray-600">
