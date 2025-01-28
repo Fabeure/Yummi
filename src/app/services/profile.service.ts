@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, map, Observable, Subscription } from 'rxjs';
-import { AuthService } from '../../../services/authentication.service';
-import { User } from '../../../models/user.model';
-import { applicationUser } from '../../../models/applicationUser.model';
+import { catchError, map, Observable, of, Subscription } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { AuthService } from './authentication.service';
+import { applicationUser } from '../models/applicationUser.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ProfileService {
   userSubscription: Subscription = new Subscription();
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getFavorites(id: string): any {
-    if (!!id){
-      return
+  getFavorites(id: string): Observable<string[]> {
+    if (!!id) {
+      return of([]);
     }
     return this.http.get(`${this.apiUrl}/getUserById`, { params: { id } }).pipe(
       map((res: any) => {
@@ -30,9 +28,12 @@ export class ProfileService {
         }
       })
     );
-
   }
-  saveProfile(id: string, user: applicationUser, token: string): Observable<any> {
+  saveProfile(
+    id: string,
+    user: applicationUser,
+    token: string
+  ): Observable<any> {
     const userParams = new HttpParams()
       .set('id', id)
       .set('Name', user.Name)
@@ -40,8 +41,9 @@ export class ProfileService {
       .set('Email', user.Email)
       .set('ProfilePictureBase64', user.ProfilePictureBase64)
       .set('Favorites', JSON.stringify(user.Favorites));
-  
-    return this.http.patch(`${this.apiUrl}/updateUserById?id=${id}`, userParams)
+
+    return this.http
+      .patch(`${this.apiUrl}/updateUserById?id=${id}`, userParams)
       .pipe(
         // On successful profile update, update user data in the BehaviorSubject
         map((res: any) => {
@@ -52,9 +54,10 @@ export class ProfileService {
               userId: id,
               name: user.Name,
               surname: user.Surname,
-              favorites: user.Favorites
+              favorites: user.Favorites,
+              profilePictureBase64: user.ProfilePictureBase64,
             };
-  
+
             // Now update the BehaviorSubject with the new user data
             this.authService.updateUser(updatedUser); // Call updateUser from AuthService
           }
@@ -67,12 +70,10 @@ export class ProfileService {
       );
   }
 
-
   deleteAccount(id: string, token: string) {
     return this.http.delete(`${this.apiUrl}/deleteUserById`, {
       params: { id, token },
     });
-
   }
   getUserData(): any {
     return this.authService.user$;
@@ -83,5 +84,4 @@ export class ProfileService {
       this.userSubscription.unsubscribe();
     }
   }
-
 }

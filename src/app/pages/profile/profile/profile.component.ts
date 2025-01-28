@@ -4,7 +4,6 @@ import { fetchItemsFromApi, ProductItem } from '../../../shared/mock-data/mockDa
 import { categories } from '../../../shared/mock-data/mockData';
 import { CommonModule } from '@angular/common';
 import { debounceTime, Subject, Subscription } from 'rxjs';
-import { ProfileService } from './profile.service';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeGridComponent } from '../../../components/recipe-grid/RecipeGrid.component';
 import { AuthService } from '../../../services/authentication.service';
@@ -12,6 +11,7 @@ import { User } from '../../../models/user.model';
 import { Recipe } from '../../../models/recipe.model';
 import { RecipeService } from '../../../services/recipe.service';
 import { applicationUser } from '../../../models/applicationUser.model';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-profile',

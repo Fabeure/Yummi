@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { ProfileService } from '../../pages/profile/profile/profile.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Injectable({
   providedIn: 'root',
