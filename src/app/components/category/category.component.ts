@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 export interface Category {
   name: string;
   image: string;
@@ -11,6 +12,9 @@ export interface Category {
   standalone: true
 })
 export class CategoryComponent {
-
+  constructor(private router: Router) { }
   @Input() category!: Category;
+  onClick(name: string) {
+    this.router.navigate(['/search'], { queryParams: { type: name } });
+  }
 }
