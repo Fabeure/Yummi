@@ -15,7 +15,46 @@ export class AuthService {
     new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) { 
+    this.TryGetUser();
+  }
+
+
+  TryGetUser(): void {
+    console.log("TRYING")
+    if (this.isLoggedIn()) {
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) {
+        this.http
+          .get(`${this.apiUrl}/getUserByToken?token=${accessToken}`)
+          .pipe(
+            map((res: any) => {
+              if (res && res.resultItem) {
+                const user: User = {
+                  email: res.resultItem.email,
+                  userId: res.resultItem.id,
+                  name: res.resultItem.name,
+                  surname: res.resultItem.surname,
+                  profilePictureBase64: res.resultItem.ProfilePictureBase64,
+                  favorites: res.resultItem.favorites || [],
+                };
+                console.log("USER FROM REFRESH:", user)
+                this.userSubject.next(user); // Emit user data
+              } else {
+                console.error('Failed to fetch user:', res);
+                this.userSubject.next(null); // Clear user data if fetching fails
+              }
+            }),
+            catchError((err) => {
+              console.error('Error fetching user on init:', err);
+              this.userSubject.next(null);
+              throw err;
+            })
+          )
+          .subscribe();
+      }
+    }
+  }
 
   register(username: string, email: string, password: string): Observable<any> {
     const registerData = {
