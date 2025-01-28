@@ -59,6 +59,7 @@
             'https://img.spoonacular.com/recipes/' + meal.id + '-556x370.jpg'
           "
           [recipes]="'ready in ' + meal.readyInMinutes"
+          (click)="onClick(meal.id)"
         ></app-meal-plan-card>
       </div>
       } }

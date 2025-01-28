@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MealPlanCardComponent } from '../../components/meal-plan-card/meal-plan-card.component';
 import { MealsResponse } from '../../models/mealPlanModel';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-meal-plan-result',
@@ -12,13 +13,18 @@ import { CommonModule } from '@angular/common';
   standalone: true,
 })
 export class MealPlanResultComponent {
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,private router: Router) { }
   meals!:MealsResponse;
   type!:string;
   ngOnInit() {
-    this.meals = this.route.snapshot.data['mealPlan'];
+    this.route.data.subscribe((data) => {
+      this.meals = data['mealPlan'];
+    });
   }
-  
+  onClick (id: number)
+  {
+    this.router.navigate(['/recipe', id]);
+  }
   get totalNutrients() {
     if (this.meals.type === 'week') {
       return this.meals.data.week.reduce(

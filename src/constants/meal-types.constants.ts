@@ -1,4 +1,4 @@
-export const MEAL_TYPES = [
+export enum MEAL_TYPES {
     'main course',
     'side dish',
     'dessert',
@@ -13,4 +13,4 @@ export const MEAL_TYPES = [
     'fingerfood',
     'snack',
     'drink',
-];
+};
