@@ -5,16 +5,13 @@ import { take } from 'rxjs';
 import { Recipe, SpoonacularSearchResponse } from '../../models/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 
-
-
-
 @Component({
   selector: 'app-recipe-grid',
-  imports: [CommonModule , MealCardComponent],
+  imports: [CommonModule, MealCardComponent],
   templateUrl: './RecipeGrid.component.html',
   styleUrl: './RecipeGrid.component.css',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecipeGridComponent implements OnInit {
 
