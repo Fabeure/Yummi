@@ -9,6 +9,7 @@ export interface User {
   email: string;
   userId: string;
   name: string;
+  favorites : string[];
 }
 
 @Injectable({
@@ -57,10 +58,16 @@ export class AuthService {
       .pipe(
         map((res: any) => {
           if (res?.success) {
-            const { accessToken } = res;
+            const { accessToken, email, userId, name , favorites } = res;
+  
             if (typeof window !== 'undefined') {
               localStorage.setItem('accessToken', accessToken);
-            }
+            }  
+            this.userSubject.next({ email, userId, name, favorites }); // Emit updated user data
+            console.log("done emitting user data",{ email, userId, name, favorites })
+            //this.router.navigate(['/profile']);
+          } else {
+            console.log('Login failed:', res?.message);
           }
           return res;
         }),
