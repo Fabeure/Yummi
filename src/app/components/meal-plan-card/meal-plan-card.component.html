@@ -24,7 +24,7 @@
     </div>
 
     <div class="flex justify-end items-center px-2 py-1">
-      <a href="">
+      <a [routerLink]="[routes.mealresult]" [queryParams]="{ diet: diet, timeFrame:'week'}">
         <div
           class="flex items-center border border-second_main text-white rounded-lg hover:bg-bg focus:ring-4 focus:outline-none focus:ring-second_main dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 px-2 py-1"
         >
