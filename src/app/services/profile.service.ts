@@ -29,21 +29,18 @@ export class ProfileService {
       })
     );
   }
-  saveProfile(
-    id: string,
-    user: applicationUser,
-    token: string
-  ): Observable<any> {
-    const userParams = new HttpParams()
+  saveProfile(id: string, user: applicationUser, token: string): Observable<any> {
+    let userParams = new HttpParams()
       .set('id', id)
       .set('Name', user.Name)
       .set('Surname', user.Surname)
       .set('Email', user.Email)
       .set('ProfilePictureBase64', user.ProfilePictureBase64)
-      .set('Favorites', JSON.stringify(user.Favorites));
-
-    return this.http
-      .patch(`${this.apiUrl}/updateUserById?id=${id}`, userParams)
+    user.Favorites.forEach((favorite, index) => {
+      userParams = userParams.set(`Favorites[${index}]`, favorite.toString());
+    });
+      
+    return this.http.patch(`${this.apiUrl}/updateUserById?id=${id}`, userParams)
       .pipe(
         // On successful profile update, update user data in the BehaviorSubject
         map((res: any) => {
@@ -55,7 +52,7 @@ export class ProfileService {
               name: user.Name,
               surname: user.Surname,
               favorites: user.Favorites,
-              profilePictureBase64: user.ProfilePictureBase64,
+              profilePictureBase64: user.ProfilePictureBase64
             };
 
             // Now update the BehaviorSubject with the new user data
