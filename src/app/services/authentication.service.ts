@@ -4,7 +4,12 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { User } from '../models/user.model';
+export interface User {
+  email: string;
+  userId: string;
+  name: string;
+  favorites : string[];
+}
 
 @Injectable({
   providedIn: 'root',
