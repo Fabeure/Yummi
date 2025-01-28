@@ -77,16 +77,34 @@ export class RecipeService {
       );
   }
 
-  /**
-  * Retrieve recipes from the Spoonacular complexSearch endpoint.
-  * @param offset The offset for pagination (0, 10, 20, ...)
-  * @param pageSize How many items to fetch at once (e.g. 10)
-  * @returns An Observable of SpoonacularSearchResponse
-  */
-  getRecipes(offset: number, pageSize: number): Observable<SpoonacularSearchResponse> {
-    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${environment.apiKey}&offset=${offset}&number=${pageSize}&addRecipeInformation=true`;
-    return this.http.get<SpoonacularSearchResponse>(url);
+/**
+   * Get recipes from Spoonacular's complexSearch.
+   * @param offset The offset for pagination
+   * @param pageSize The number of items to fetch
+   * @param extraParams A dictionary of optional search params (query, diet, etc.)
+   */
+getRecipes(
+  offset: number,
+  pageSize: number,
+  extraParams: Record<string, string | number | boolean> = {}
+): Observable<SpoonacularSearchResponse> {
+  // Build base HttpParams
+  let params = new HttpParams()
+    .set('apiKey', environment.apiKey)
+    .set('offset', offset)
+    .set('number', pageSize)
+    .set('addRecipeInformation', 'true'); 
+
+  // Merge in optional search params
+  // e.g. { query: 'pasta', diet: 'vegetarian', cuisine: 'italian', ... }
+  for (const [key, value] of Object.entries(extraParams)) {
+    if (value !== null && value !== undefined) {
+      params = params.set(key, String(value));
+    }
   }
+
+  return this.http.get<SpoonacularSearchResponse>(environment.recipeApiUrl + '/recipes/complexSearch', { params });
+}
 
   private mapRandomRecipes(response: any): Recipe[] {
     return response.recipes.map((recipe: any) => this.mapToRecipe(recipe));

@@ -6,5 +6,6 @@ export const APP_ROUTES = {
     test: 'test',
     mealplan: 'planner',
     mealresult :'result',
+    search : 'search'
 };
 export const RANDOM = 8;

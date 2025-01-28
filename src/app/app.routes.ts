@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { TestSearchComponent } from './pages/test-search/test-search.component';
-import { ProfileComponent } from './pages/profile/profile/profile.component';
 import { RecipeComponent } from './recipe/recipe.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { APP_ROUTES } from '../config/routes.config';
@@ -11,14 +9,15 @@ import { MealPlanResultComponent } from './pages/meal-plan-result/meal-plan-resu
 import { MealPlanResolver } from './resolvers/mealplan.resolver';
 import { LoginGuard } from './guards/route.guard';
 import { ProfileResolver } from './resolvers/profile/profile.resolver';
+import { SearchResultsComponent } from './pages/search-results/search-results.component';
 export const routes: Routes = [
   {
     path: APP_ROUTES.home,
     component: HomeComponent,
   },
   {
-    path: APP_ROUTES.test,
-    component: TestSearchComponent,
+    path : APP_ROUTES.search,
+    component : SearchResultsComponent
   },
   {
     path: APP_ROUTES.profile,

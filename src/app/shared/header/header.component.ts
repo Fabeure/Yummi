@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LogInComponent } from '../../components/log-in/log-in.component';
 import { AuthorizationService } from '../../services/authorisation.service';
@@ -6,10 +6,11 @@ import { AuthService } from '../../services/authentication.service';
 import { CommonModule } from '@angular/common';
 import { APP_ROUTES } from '../../../config/routes.config';
 import { Router, RouterModule } from '@angular/router';
+import { SearchComponent } from "../../components/search/search.component";
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule, SearchComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
   standalone: true

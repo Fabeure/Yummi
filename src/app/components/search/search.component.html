@@ -1,0 +1,102 @@
+<!-- Search Icon -->
+ <button 
+ class="p-2 text-gray-700 hover:text-gray-900" 
+ (click)="togglePopup()"
+ aria-label="Open Search"
+>
+ <!-- Example: using a magnifying glass icon (Heroicons) -->
+ <img src="search.png" class="w-6 h-6 mr-4 mt-4" alt="Search Icon" />
+</button>
+
+<!-- Modal (popup) -->
+<div 
+ *ngIf="isOpen()" 
+ class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800"
+>
+ <div class="bg-white w-11/12 max-w-md rounded-lg p-4 relative shadow-lg z-51" style="background-color: bisque;">
+   <!-- Close Button -->
+   <button
+     class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+     (click)="togglePopup()"
+     aria-label="Close Search"
+   >
+     <svg 
+       class="w-5 h-5" 
+       fill="none" 
+       stroke="currentColor" 
+       stroke-width="2" 
+       viewBox="0 0 24 24"
+     >
+       <path 
+         stroke-linecap="round" 
+         stroke-linejoin="round" 
+         d="M6 18L18 6M6 6l12 12" 
+       />
+     </svg>
+   </button>
+
+   <!-- Header -->
+   <h2 class="text-2xl font-semibold mb-4 text-center">Search Recipes</h2>
+
+   <!-- Search Form -->
+   <form (ngSubmit)="onSearch()" class="space-y-4">
+
+     <!-- Title / Query -->
+     <div>
+       <label for="title" class="block mb-1 font-medium text-gray-700"
+         >Recipe Title</label
+       >
+       <input
+         id="title"
+         type="text"
+         [(ngModel)]="title"
+         name="title"
+         class="block w-full border border-gray-300 rounded px-3 py-2"
+         placeholder="e.g. pasta, chicken, salad..."
+       />
+     </div>
+
+     <!-- Cuisine Select -->
+     <div>
+       <label for="cuisine" class="block mb-1 font-medium text-gray-700"
+         >Cuisine</label
+       >
+       <select
+         id="cuisine"
+         [(ngModel)]="selectedCuisine"
+         name="cuisine"
+         class="block w-full border border-gray-300 rounded px-3 py-2"
+       >
+         <option value="" selected>Any Cuisine</option>
+         <option *ngFor="let c of cuisines" [value]="c">{{ c }}</option>
+       </select>
+     </div>
+
+     <!-- Diet Select -->
+     <div>
+       <label for="diet" class="block mb-1 font-medium text-gray-700"
+         >Diet</label
+       >
+       <select
+         id="diet"
+         [(ngModel)]="selectedDiet"
+         name="diet"
+         class="block w-full border border-gray-300 rounded px-3 py-2"
+       >
+         <option value="" selected>Any Diet</option>
+         <option *ngFor="let d of diets" [value]="d">{{ d }}</option>
+       </select>
+     </div>
+
+     <!-- Search Button -->
+     <div class="text-center">
+       <button
+         type="submit"
+         class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+       >
+         Search
+       </button>
+     </div>
+   </form>
+ </div>
+</div>
