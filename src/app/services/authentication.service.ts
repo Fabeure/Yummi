@@ -64,6 +64,6 @@ export class AuthService {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken');
     } this.userSubject.next(null);
-    //this.router.navigate(['/']);
+    this.router.navigate(['/']);
   }
 }

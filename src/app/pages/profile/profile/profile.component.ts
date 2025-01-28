@@ -9,6 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 import { RecipeGridComponent } from '../../../components/recipe-grid/RecipeGrid.component';
 import { AuthService } from '../../../services/authentication.service';
 import { User } from '../../../models/user.model';
+import { Recipe } from '../../../models/recipe.model';
+import { RecipeService } from '../../../services/recipe.service';
+import { applicationUser } from '../../../models/applicationUser.model';
 
 @Component({
   selector: 'app-profile',
@@ -25,9 +28,15 @@ export class ProfileComponent implements OnInit {
   page = 1;
   pageSize = 8;
   total = 0;
-  profileForm!: FormGroup;
+  profileForm = {
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+    profilePicture: '',
+  };
   profilePictureUrl: string | null = null;  // URL for the profile picture
-  userId: string = '';  
+  userId: string = '';
   user: User = {
     name: '',
     surname: '',
@@ -35,56 +44,30 @@ export class ProfileComponent implements OnInit {
     profilePictureBase64: '',
     userId: '',
     favorites: [],
-  }; // Store the user data
-favorites: string[] = [];
+  };
+  favouriteRecipies: Recipe[] = [];
+  favorites: string[] = [];
   constructor(private fb: FormBuilder, private route: ActivatedRoute
-    , private cdr: ChangeDetectorRef, private profileService: ProfileService, private authService: AuthService) {
-    this.profileForm = this.fb.group({
-      name: ['', []],
-      surname: ['', []],
-      email: ['', []],
-      password: ['', []],
-      profilePicture: ['', []], // Form control for the base64 image
-    });
+    , private cdr: ChangeDetectorRef, private profileService: ProfileService, private authService: AuthService, private recipeService: RecipeService) {
   }
   resolvedData: any;
   async ngOnInit() {
-
     this.resolvedData = this.route.snapshot.data['userData'];
-
     if (this.resolvedData) {
       this.userId = this.resolvedData.userId;
       this.updateForm(this.resolvedData);
     }
-    // this.profileForm = this.fb.group({
-    //   fullName: [resolvedData.fullName || null, [Validators.required, Validators.minLength(3)]],
-    //   username: [resolvedData.username || '', [Validators.required, Validators.minLength(3)]],
-    //   email: [resolvedData.email || '', [Validators.required, Validators.email]],
-    //   password: [resolvedData.password || '', [Validators.required, Validators.minLength(6)]],
-    // });
-
-    // await this.loadPage(this.page);
-
-    // this.fetchUserData();
+    this.getFavoriteRecipeIds();
   }
 
   onFileSelected(event: any) {
-    console.log(event);
-    console.log('in onFilejSelected');
-
     const file = event.target.files[0];
-
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-
       // Once file is loaded, set the profile picture URL
       reader.onload = () => {
         this.profilePictureUrl = reader.result as string;
-        this.profileForm.patchValue({
-          profilePicture: this.profilePictureUrl, // Assuming you have a 'profilePicture' form control
-        });
-
         console.log('Profile picture URL:', this.profilePictureUrl);
       };
       reader.onerror = (error) => {
@@ -93,67 +76,114 @@ favorites: string[] = [];
     }
   }
 
-
   updateForm(userData: any): void {
-    console.log('Updating form with user data:', userData);
-    this.profileForm = this.fb.group({
-      name: [userData.name, []],
-      surname: [userData.name, []],
-      email: [userData.name, []],
-      password: [userData.name, []],
-      profilePicture: [userData.name, []], // Form control for the base64 image
+    this.profileForm = {
+      name: userData.name,
+      surname: userData.surname,
+      email: userData.email,
+      password: '',
+      profilePicture: userData.profilePictureBase64
+    };
+  }
+
+  saveProfile() {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('accessToken') || '';
+
+      const user: applicationUser = {
+        userId: this.userId,
+        Name: this.profileForm.name as string,
+        Surname: this.profileForm.surname as string,
+        Email: this.profileForm.email as string,
+        ProfilePictureBase64: this.profileForm.profilePicture as string,
+        Favorites: this.favorites
+      }
+
+      this.profileService.saveProfile(user, token, this.favorites).subscribe({
+        next: () => {
+          console.log('Profile saved!');
+        },
+        error: (err: any) => {
+          console.error('Failed to save profile:', err);
+        },
+      });
+    }
+  }
+
+  deleteAccount() {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('accessToken') || '';
+      this.profileService.deleteAccount(this.userId, token).subscribe({
+        next: () => {
+          this.authService.logout();
+        },
+        error: (err) => {
+          console.error('Failed to delete account:', err);
+        },
+      });
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeDropdown(): void {
+    this.isDropdownOpen = false;
+  }
+
+  toggleDropdown(event: MouseEvent): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+    // Prevent the event from propagating to the document and instantly closing the dropdown again
+    event.stopPropagation();
+  }
+
+  get showLoadMore(): boolean {
+    return this.products.length < this.total;
+  }
+
+  private async loadPage(page: number) {
+    const { total, items } = await fetchItemsFromApi(page, this.pageSize);
+    this.total = total;
+    if (page === 1) {
+      this.products = items;
+    } else {
+      this.products = [...this.products, ...items];
+    }
+    this.cdr.detectChanges();
+  }
+  handleLoadMore() {
+    this.page++;
+    this.loadPage(this.page);
+  }
+  ngOnDestroy(): void {
+    // Unsubscribe from the user observable to prevent memory leaks
+    this.profileService.unsubscribeUser();
+  }
+  getFavoriteRecipeIds(): void {
+    this.profileService.getFavorites(this.userId).subscribe(
+      (favorites: any) => {
+        this.favorites = favorites;
+        this.getFavoriteRecipes();
+      },
+      (error: any) => {
+        console.error('Failed to fetch favorites:', error);
+      }
+    );
+  }
+
+  getFavoriteRecipes(): void {
+    this.favorites.forEach((recipeId: string) => {
+      this.recipeService.getRecipe(Number(recipeId)).subscribe(
+        (recipe: any) => {
+          this.favouriteRecipies.push(recipe);
+        },
+        (error: any) => {
+          console.error('Failed to fetch recipe:', error);
+        }
+      );
     });
   }
 
-  // console.log(this.profileForm.value);
-
-
-saveProfile() {
-  console.log(this.profileForm.value);
-  if (this.profileForm.valid && typeof window !== 'undefined') {
-      const token = localStorage.getItem('accessToken')|| '';
-    this.profileService.saveProfile(this.profileForm.value, this.userId,token,this.favorites);
+  changePassword() {
   }
-}
-
-deleteAccount() {
-  console.log('Account deleted!');
-}
-
-@HostListener('document:click', ['$event'])
-closeDropdown(): void {
-  this.isDropdownOpen = false;
-}
-
-toggleDropdown(event: MouseEvent): void {
-  this.isDropdownOpen = !this.isDropdownOpen;
-  // Prevent the event from propagating to the document and instantly closing the dropdown again
-  event.stopPropagation();
-}
-
-  get showLoadMore(): boolean {
-  return this.products.length < this.total;
-}
-
-  private async loadPage(page: number) {
-  const { total, items } = await fetchItemsFromApi(page, this.pageSize);
-  this.total = total;
-  if (page === 1) {
-    this.products = items;
-  } else {
-    this.products = [...this.products, ...items];
-  }
-  this.cdr.detectChanges();
-}
-
-handleLoadMore() {
-  this.page++;
-  this.loadPage(this.page);
-}
-ngOnDestroy(): void {
-  // Unsubscribe from the user observable to prevent memory leaks
-  this.profileService.unsubscribeUser();
-}
 
 }
 
