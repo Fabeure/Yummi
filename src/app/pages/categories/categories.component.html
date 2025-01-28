@@ -4,7 +4,7 @@
 <hr class="text-gris_clair border-t-2 border-gray-300 my-4" />
 <div class="grid gap-y-2 gap-x-0 grid-cols-5 ">
 @for(category of categories; track $index)
-    {<app-category [category]="category" (click)="onClick(category.name)"></app-category>}
+    {<app-category [category]="category" ></app-category>}
 </div>
 </div>
 

@@ -31,7 +31,9 @@ export class SearchResultsComponent implements OnInit {
      if (params['diet']) {
        newSearchParams['diet'] = params['diet'];
      }
-
+     if (params['type']) {
+        newSearchParams['type'] = params['type'];
+      }
      // Update the signal to trigger a refresh
      this.searchParamsSignal.set(newSearchParams);
    });

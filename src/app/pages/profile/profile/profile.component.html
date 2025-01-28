@@ -102,31 +102,33 @@
         </div>
       </div>
 
-      <div class="m-4 w-[40%]">
-        <label
-          for="password"
-          class="block text-sm uppercase font-light text-gray mb-1"
-          >New Password</label
-        >
+      <div class="m-4  w-[40%]">
+        <label for="password" class="block text-sm uppercase font-light text-gray mb-1">Old Password</label>
 
         <span class="flex flex-row">
           <div class="flex items-center border-b border-gray-300 py-2 mr-2">
             <i class="fa-solid fa-lock mr-2"></i>
-            <input
-              type="password"
-              id="password"
-              class="w-full outline-none text-gray-700"
-              placeholder="********"
-              [(ngModel)]="profileForm.password"
-              name="password"
-            />
+            <input type="password" id="password" class="w-full outline-none text-gray-700" placeholder="********"
+            [(ngModel)]="profileForm.old_password"
+            name="old_password" />
+          </div>
+        </span>
+      </div>
+      <div class="m-4  w-[40%]">
+        <label for="password" class="block text-sm uppercase font-light text-gray mb-1">New Password</label>
+
+        <span class="flex flex-row">
+          <div class="flex items-center border-b border-gray-300 py-2 mr-2">
+            <i class="fa-solid fa-lock mr-2"></i>
+            <input type="password" id="password" class="w-full outline-none text-gray-700" placeholder="********"
+            [(ngModel)]="profileForm.new_password"
+            name="new_password" />
           </div>
           <button (click)="changePassword()" class="change-password">
             change
           </button>
         </span>
       </div>
-
       <div class="flex justify-between">
         <button
           type="submit"

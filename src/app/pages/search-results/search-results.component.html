@@ -1,5 +1,8 @@
 <div class="container mx-auto px-4 py-6">
+  @if(!searchParams()['type'])
+  {
     <h1 class="text-2xl font-semibold mb-4">Search Results</h1>
+  }
     <app-recipe-grid
       displayMode="pagination"
       [searchParams]="searchParams()"
