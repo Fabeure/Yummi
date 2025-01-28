@@ -16,12 +16,23 @@ import { SearchComponent } from "../../components/search/search.component";
   standalone: true
 })
 export class HeaderComponent {
-  routes=APP_ROUTES;
-  authService=inject(AuthService);
-  authoService=inject(AuthorizationService);
-  user$=this.authService.user$;
-  
-  constructor(private dialog: MatDialog) { 
+  routes = APP_ROUTES;
+  authService = inject(AuthService);
+  authoService = inject(AuthorizationService);
+  user$ = this.authService.user$;
+  profilePictureUrl: string = '../../../assets/cat.png';
+
+  ngOnInit() {
+    this.authService.user$.subscribe({
+      next: (user) => {
+        if (user) {
+          this.profilePictureUrl = user.profilePictureBase64;
+        }
+      }
+    });
+  }
+
+  constructor(private dialog: MatDialog) {
     //console.log("user$: ", this.authoService.isLoggedIn());
   }
 
@@ -30,7 +41,7 @@ export class HeaderComponent {
       width: '500px',
       disableClose: true, // Empêche la fermeture en cliquant à l'extérieur
     });
-    
+
   }
   logout() {
     this.authService.logout();
