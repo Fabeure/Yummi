@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 export interface User {
   email: string;
@@ -22,41 +22,37 @@ export class AuthService {
   constructor(private router: Router, private http: HttpClient) { }
 
 
-  register(username:string, email: string, password: string){
+  register(username: string, email: string, password: string): Observable<any> {
     const registerData = {
       Email: email,
       Username: username,
-      Password:password,
-    };
-
-    this.http
-    .post(`${this.apiUrl}/api/v1/authenticate/register`, registerData)
-    .pipe(
-      map((res: any) => {
-        if (res?.success) {
-          const { accessToken } = res;
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('accessToken', accessToken);
-          }
-          this.router.navigate(['/'])
-        } else {
-          console.log('Register failed:', res?.message);
-        }
-      }),
-      catchError((err) => {
-        console.error('Login error:', err);
-        return [];
-      })
-    )
-    .subscribe();
-  }
-  login(email: string, password: string) {
-    const loginData = {
-      Email: email,
       Password: password,
     };
+  
+    return this.http
+      .post(`${this.apiUrl}/api/v1/authenticate/register`, registerData)
+      .pipe(
+        map((res: any) => {
+          if (res?.success) {
+            const { accessToken } = res;
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('accessToken', accessToken);
+            }
+            this.router.navigate(['/'])
+          }
+          return res;
+        }),
+        catchError((err) => {
+          console.error('Registration error:', err);
+          throw err;
+        })
+      );
+  }
 
-    this.http
+  login(email: string, password: string): Observable<any> {
+    const loginData = { Email: email, Password: password };
+  
+    return this.http
       .post(`${this.apiUrl}/api/v1/authenticate/login`, loginData)
       .pipe(
         map((res: any) => {
@@ -72,14 +68,13 @@ export class AuthService {
           } else {
             console.log('Login failed:', res?.message);
           }
+          return res;
         }),
         catchError((err) => {
           console.error('Login error:', err);
-          this.userSubject.error('An error occurred during login');
-          return [];
+          throw err;
         })
-      )
-      .subscribe();
+      );
   }
 
   // Check if the user is logged in (based on presence of access token)
@@ -94,7 +89,7 @@ export class AuthService {
   logout(): void {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken');
-    } this.userSubject.next(null);
+    }    this.userSubject.next(null);
     this.router.navigate(['/']);
   }
 }
