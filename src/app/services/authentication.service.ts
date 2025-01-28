@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-
 export interface User {
   email: string;
   userId: string;
@@ -20,7 +19,7 @@ export class AuthService {
   private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) { }
 
 
   register(username: string, email: string, password: string): Observable<any> {
