@@ -1,35 +1,38 @@
-import { Component, Input, ChangeDetectionStrategy, computed, signal, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  computed,
+  signal,
+  OnInit,
+  SimpleChanges,
+  OnChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MealCardComponent } from '../meal-card/meal-card.component';
 import { take } from 'rxjs';
 import { Recipe, SpoonacularSearchResponse } from '../../models/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 
-
-
-
 @Component({
   selector: 'app-recipe-grid',
-  imports: [CommonModule , MealCardComponent],
+  imports: [CommonModule, MealCardComponent],
   templateUrl: './RecipeGrid.component.html',
   styleUrl: './RecipeGrid.component.css',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecipeGridComponent implements OnInit {
-
+export class RecipeGridComponent implements  OnChanges {
   /**
    * Switch between "showMore" or "pagination" display modes.
    */
   @Input() displayMode: 'showMore' | 'pagination' = 'showMore';
 
-
   /**
-   * Optional: if provided, the component will display these recipes 
+   * Optional: if provided, the component will display these recipes
    * directly and skip API fetching altogether.
    */
-  @Input() recipesInput?: Recipe[] = [];
-
+  @Input() recipesInput: Recipe[] = [];
 
   readonly pageSize = 8; // We fetch 8 recipes per request
 
@@ -37,7 +40,7 @@ export class RecipeGridComponent implements OnInit {
    * If using "showMore" mode, we will keep incrementing offset by pageSize.
    * If using "pagination" mode, offset = (currentPage - 1) * pageSize.
    */
-  
+
   private offsetSignal = signal<number>(0);
 
   // For pagination mode, track the current page number (starting from 1).
@@ -49,25 +52,35 @@ export class RecipeGridComponent implements OnInit {
   // We store our loaded recipes in a signal
   private recipesSignal = signal<Recipe[]>([]);
 
-
   recipes = computed(() => this.recipesSignal());
   currentOffset = computed(() => this.offsetSignal());
   currentPage = computed(() => this.pageSignal());
   totalResults = computed(() => this.totalResultsSignal());
   totalPages = computed(() =>
-    this.totalResults() > 0
-      ? Math.ceil(this.totalResults() / this.pageSize)
-      : 0
+    this.totalResults() > 0 ? Math.ceil(this.totalResults() / this.pageSize) : 0
   );
 
   constructor(private recipeService: RecipeService) {}
 
-  ngOnInit() {
-    if (this.recipesInput && this.recipesInput.length > 0) {
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['recipesInput']) {
+      console.log('Recipes input changed:', this.recipesInput.length);
+      this.initializeData();
+    }
+  }
+
+  private initializeData() {
+    // Reset signals to initial state
+    this.offsetSignal.set(0);
+    this.pageSignal.set(1);
+
+    if (this.recipesInput?.length > 0) {
+      console.log('Setting recipes from input:', this.recipesInput.length);
       this.recipesSignal.set(this.recipesInput);
       this.totalResultsSignal.set(this.recipesInput.length);
     } else {
-      // 2) Otherwise, fetch from the API as before
+      console.log('No input recipes, fetching from API');
       this.fetchRecipes();
     }
   }
@@ -76,7 +89,8 @@ export class RecipeGridComponent implements OnInit {
     const offset = this.getCurrentOffsetBasedOnDisplayMode();
 
     // We call the service method, which returns an Observable
-    this.recipeService.getRecipes(offset, this.pageSize)
+    this.recipeService
+      .getRecipes(offset, this.pageSize)
       .pipe(take(1))
       .subscribe({
         next: (res: SpoonacularSearchResponse) => {
@@ -92,16 +106,14 @@ export class RecipeGridComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error fetching recipes:', err);
-        }
+        },
       });
   }
-
 
   /**
    * If "showMore" => offset is incremented each time
    * If "pagination" => offset is based on (page - 1) * pageSize
    */
-
 
   private getCurrentOffsetBasedOnDisplayMode(): number {
     if (this.displayMode === 'pagination') {
@@ -157,6 +169,4 @@ export class RecipeGridComponent implements OnInit {
   trackByRecipeId(index: number, recipe: Recipe) {
     return recipe.id;
   }
-
-
 }

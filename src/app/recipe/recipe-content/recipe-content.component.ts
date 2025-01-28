@@ -53,7 +53,7 @@ export class RecipeContentComponent implements OnInit, OnDestroy {
       }
     });
     this.liked = this.recipe?.id
-      ? this.user$?.favorites.includes(this.recipe.id.toString()) ?? false
+      ? this.user$?.favorites.includes(this.recipe.id) ?? false
       : false;
   }
 
@@ -71,22 +71,15 @@ export class RecipeContentComponent implements OnInit, OnDestroy {
         width: '500px',
         disableClose: true,
       });
-      // You might want to handle the dialog close event to check if user logged in
-      dialogRef.afterClosed().subscribe((result) => {
-        if (this.authorisationService.isLoggedIn()) {
-          this.likeRecipe(); // Retry liking after login
-        }
-      });
       return;
     }
-
     // Guard clauses for required data
     if (!this.user$?.userId || !this.recipe?.id) {
       console.error('Missing user or recipe data');
       return;
     }
 
-    const recipeId = this.recipe.id.toString();
+    const recipeId = this.recipe.id;
     const userFavorites = [...(this.user$.favorites || [])]; // Create a copy of the array
 
     try {

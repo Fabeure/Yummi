@@ -1,6 +1,23 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'; // Import FormsModule
-import { fetchItemsFromApi, ProductItem } from '../../../shared/mock-data/mockData';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms'; // Import FormsModule
+import {
+  fetchItemsFromApi,
+  ProductItem,
+} from '../../../shared/mock-data/mockData';
 import { categories } from '../../../shared/mock-data/mockData';
 import { CommonModule } from '@angular/common';
 import { debounceTime, Subject, Subscription } from 'rxjs';
@@ -15,7 +32,12 @@ import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [FormsModule, CommonModule, ReactiveFormsModule, RecipeGridComponent],
+  imports: [
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    RecipeGridComponent,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
   standalone: true,
@@ -35,7 +57,7 @@ export class ProfileComponent implements OnInit {
     password: '',
     profilePicture: '',
   };
-  profilePictureUrl: string = '../../../assets/cat.png';  // URL for the profile picture
+  profilePictureUrl: string = 'profiles/profile.jpg'; // URL for the profile picture
   userId: string = '';
   user: User = {
     name: '',
@@ -47,23 +69,34 @@ export class ProfileComponent implements OnInit {
   };
   favouriteRecipies: Recipe[] = [];
   favorites: number[] = [];
-  constructor(private fb: FormBuilder, private route: ActivatedRoute
-    , private cdr: ChangeDetectorRef, private profileService: ProfileService, private authService: AuthService, private recipeService: RecipeService) {
-  }
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private profileService: ProfileService,
+    private authService: AuthService,
+    private recipeService: RecipeService
+  ) {}
   resolvedData: any;
-  async ngOnInit() {
+  ngOnInit() {
     this.resolvedData = this.route.snapshot.data['userData'];
     if (this.resolvedData) {
       this.userId = this.resolvedData.userId;
-      console.log('resolved data:', this.resolvedData)
+      //this.user = this.resolvedData;
+      console.log('resolved data:', this.resolvedData);
       this.updateForm(this.resolvedData);
       this.favorites = this.resolvedData.favorites;
-      if (this.resolvedData.profilePictureBase64 && this.resolvedData.profilePictureBase64 != 'undefined') {
+      if (
+        this.resolvedData.profilePictureBase64 &&
+        this.resolvedData.profilePictureBase64 != 'undefined'
+      ) {
         this.profilePictureUrl = this.resolvedData.profilePictureBase64;
       }
     }
     this.getFavoriteRecipeIds();
+    console.log('these are fvrt recipes.', this.favouriteRecipies);
   }
+
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -88,7 +121,7 @@ export class ProfileComponent implements OnInit {
       surname: userData.surname,
       email: userData.email,
       password: '',
-      profilePicture: userData.profilePictureBase64
+      profilePicture: userData.profilePictureBase64,
     };
   }
 
@@ -101,8 +134,8 @@ export class ProfileComponent implements OnInit {
         Surname: this.profileForm.surname as string,
         Email: this.profileForm.email as string,
         ProfilePictureBase64: this.profileForm.profilePicture as string,
-        Favorites: this.favorites
-      }
+        Favorites: this.favorites,
+      };
 
       this.profileService.saveProfile(this.userId, user, token).subscribe({
         next: () => {
@@ -163,32 +196,37 @@ export class ProfileComponent implements OnInit {
     this.profileService.unsubscribeUser();
   }
   getFavoriteRecipeIds(): void {
-    this.profileService.getFavorites(this.userId).subscribe(
-      (favorites: any) => {
+    this.profileService.getFavorites(this.userId).subscribe({
+      next: (favorites: number[]) => {
         this.favorites = favorites;
+        console.log('Fetched favorites:', favorites);
         this.getFavoriteRecipes();
+        console.log('Fetched recipes:', this.favouriteRecipies);
       },
-      (error: any) => {
+      error: (error: any) => {
         console.error('Failed to fetch favorites:', error);
-      }
-    );
+      },
+      complete: () => {
+        console.log('Completed fteching fvrts');
+      },
+    });
   }
 
   getFavoriteRecipes(): void {
     this.favorites.forEach((recipeId: number) => {
-      this.recipeService.getRecipe(recipeId).subscribe(
-        (recipe: any) => {
+      this.recipeService.getRecipe(recipeId).subscribe({
+        next: (recipe: Recipe) => {
           this.favouriteRecipies.push(recipe);
         },
-        (error: any) => {
-          console.error('Failed to fetch recipe:', error);
-        }
-      );
+        error: (err: any) => {
+          console.error('Failed to fetch recipe:', err);
+        },
+        complete: () => {
+          console.log('Completed');
+        },
+      });
     });
   }
 
-  changePassword() {
-  }
-
+  changePassword() {}
 }
-

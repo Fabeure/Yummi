@@ -14,13 +14,16 @@ export class ProfileService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getFavorites(id: string): Observable<string[]> {
-    if (!!id) {
+  getFavorites(id: string): Observable<number[]> {
+    if (!id) {
       return of([]);
     }
     return this.http.get(`${this.apiUrl}/getUserById`, { params: { id } }).pipe(
       map((res: any) => {
+        console.log('Favorites response: service', res);
         if (res && res.resultItem && res.resultItem.favorites) {
+          console.log('Favorites response: service', res.resultItem.favorites);
+
           return res.resultItem.favorites;
         } else {
           console.error('Favorites not found in the response:', res);
