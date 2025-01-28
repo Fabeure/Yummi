@@ -27,15 +27,14 @@ export const routes: Routes = [
     resolve: {
       userData: ProfileResolver
     },
-    canActivate: [LoginGuard]
+    canActivate: [LoginGuard],
   },
   {
     path: APP_ROUTES.recipe,
     component: RecipeComponent,
     resolve: {
-      recipe: RecipeResolver
-    }
-
+      recipe: RecipeResolver,
+    },
   },
   {
     path: APP_ROUTES.categories,

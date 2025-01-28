@@ -16,6 +16,35 @@ export class AuthService {
 
   constructor(private router: Router, private http: HttpClient) { }
 
+
+  register(username:string, email: string, password: string){
+    const registerData = {
+      Email: email,
+      Username: username,
+      Password:password,
+    };
+
+    this.http
+    .post(`${this.apiUrl}/api/v1/authenticate/register`, registerData)
+    .pipe(
+      map((res: any) => {
+        if (res?.success) {
+          const { accessToken } = res;
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('accessToken', accessToken);
+          }
+          this.router.navigate(['/'])
+        } else {
+          console.log('Register failed:', res?.message);
+        }
+      }),
+      catchError((err) => {
+        console.error('Login error:', err);
+        return [];
+      })
+    )
+    .subscribe();
+  }
   login(email: string, password: string) {
     const loginData = {
       Email: email,
@@ -27,16 +56,13 @@ export class AuthService {
       .pipe(
         map((res: any) => {
           if (res?.success) {
-            console.log('Login successful:', res);
-            const { accessToken, email, userId, name, favorites, profilePictureBase64, surname } = res;
-
+            const { accessToken, email, userId, name , favorites } = res;
+  
             if (typeof window !== 'undefined') {
               localStorage.setItem('accessToken', accessToken);
-            }
-            this.userSubject.next({ email, userId, name, favorites, profilePictureBase64, surname }); // Emit updated user data
-            console.log("done emitting user data");
-            console.log("user data", this.userSubject.value);
-
+            }  
+            this.userSubject.next({ email, userId, name, favorites }); // Emit updated user data
+            console.log("done emitting user data",{ email, userId, name, favorites })
             //this.router.navigate(['/profile']);
           } else {
             console.log('Login failed:', res?.message);
@@ -56,7 +82,7 @@ export class AuthService {
     if (typeof window === 'undefined') {
       return false;
     }
-    return localStorage && !!localStorage.getItem('accessToken');
+    return localStorage && !!localStorage.getItem('accessToken') && !(localStorage.getItem('accessToken') == 'undefined');
   }
 
   // Logout method (clear the user data and token)

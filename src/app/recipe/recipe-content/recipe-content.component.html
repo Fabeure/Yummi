@@ -20,7 +20,11 @@
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
-          [attr.fill]="liked ? 'red' : 'none'"
+          [attr.fill]="
+            liked && (this.authorisationService.isLoggedIn() || (user$ ))
+              ? 'red'
+              : 'none'
+          "
           viewBox="0 0 24 24"
           [ngClass]="{ 'bg-red-500': liked, 'bg-gray-500': !liked }"
           stroke="currentColor"
