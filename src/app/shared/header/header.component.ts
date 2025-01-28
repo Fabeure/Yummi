@@ -2,7 +2,7 @@ import { Component, inject, Inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LogInComponent } from '../../components/log-in/log-in.component';
 import { AuthorizationService } from '../../services/authorisation.service';
-import { AuthService, User } from '../../services/authentication.service';
+import { AuthService } from '../../services/authentication.service';
 import { CommonModule } from '@angular/common';
 import { APP_ROUTES } from '../../../config/routes.config';
 import { Router, RouterModule } from '@angular/router';

@@ -3,11 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { MealPlanCardComponent } from '../../components/meal-plan-card/meal-plan-card.component';
 import { MealsResponse } from '../../models/mealPlanModel';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/authentication.service';
+import { MealCardComponent } from "../../components/meal-card/meal-card.component";
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-meal-plan-result',
-  imports: [MealPlanCardComponent,CommonModule],
+  imports: [MealPlanCardComponent, CommonModule, MealCardComponent],
   templateUrl: './meal-plan-result.component.html',
   styleUrl: './meal-plan-result.component.css',
   standalone: true,

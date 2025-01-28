@@ -27,3 +27,9 @@ ul {
   background: #FAEFDB;
   transition: 0.05s;
 }
+
+.change-password:hover {
+  transform: translateY(2px);
+  transition: 0.05s;
+  color: #642800;
+}

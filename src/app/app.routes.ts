@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { TestSearchComponent } from './pages/test-search/test-search.component';
-import { ProfileComponent } from './pages/profile/profile.component';
+import { ProfileComponent } from './pages/profile/profile/profile.component';
 import { RecipeComponent } from './recipe/recipe.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { APP_ROUTES } from '../config/routes.config';
@@ -10,6 +10,7 @@ import { MealPlanComponent } from './pages/meal-plan/meal-plan.component';
 import { MealPlanResultComponent } from './pages/meal-plan-result/meal-plan-result.component';
 import { MealPlanResolver } from './resolvers/mealplan.resolver';
 import { LoginGuard } from './guards/route.guard';
+import { ProfileResolver } from './resolvers/profile/profile.resolver';
 export const routes: Routes = [
   {
     path: APP_ROUTES.home,
@@ -21,16 +22,19 @@ export const routes: Routes = [
   },
   {
     path: APP_ROUTES.profile,
-    component: ProfileComponent,
-    canActivate: [LoginGuard]
+    loadComponent: () =>
+      import('./pages/profile/profile/profile.component').then((m) => m.ProfileComponent),
+    resolve: {
+      userData: ProfileResolver
+    },
+    canActivate: [LoginGuard],
   },
   {
     path: APP_ROUTES.recipe,
     component: RecipeComponent,
-    resolve :{
-      recipe: RecipeResolver
-    }
-    
+    resolve: {
+      recipe: RecipeResolver,
+    },
   },
   {
     path: APP_ROUTES.categories,

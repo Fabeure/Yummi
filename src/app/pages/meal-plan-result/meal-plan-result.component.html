@@ -53,14 +53,23 @@
       </div>
       @for(meal of day.meals; track $index) {
       <div class="w-full sm:w-1/2 md:w-1/3 flex justify-center p-2">
-        <app-meal-plan-card
+        <!-- <app-meal-plan-card
           [title]="meal.title"
           [image]="
             'https://img.spoonacular.com/recipes/' + meal.id + '-556x370.jpg'
           "
           [recipes]="'ready in ' + meal.readyInMinutes"
-          (click)="onClick(meal.id)"
-        ></app-meal-plan-card>
+        ></app-meal-plan-card> -->
+        <app-meal-card
+        [title]="meal.title"
+        [image]="
+            'https://img.spoonacular.com/recipes/' + meal.id + '-556x370.jpg'
+          "
+        [time]="meal.readyInMinutes"
+        [id]="meal.id"
+        (click)="onClick(meal.id)"
+        >
+        </app-meal-card>
       </div>
       } }
     </div>
