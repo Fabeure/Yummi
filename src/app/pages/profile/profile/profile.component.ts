@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
     password: '',
     profilePicture: '',
   };
-  profilePictureUrl: string | null = null;  // URL for the profile picture
+  profilePictureUrl: string = '../../../assets/cat.png';  // URL for the profile picture
   userId: string = '';
   user: User = {
     name: '',
@@ -57,7 +57,10 @@ export class ProfileComponent implements OnInit {
       this.userId = this.resolvedData.userId;
       console.log('resolved data:', this.resolvedData)
       this.updateForm(this.resolvedData);
-      this.favorites=this.resolvedData.favorites;
+      this.favorites = this.resolvedData.favorites;
+      if (this.resolvedData.profilePictureBase64 && this.resolvedData.profilePictureBase64 != 'undefined') {
+        this.profilePictureUrl = this.resolvedData.profilePictureBase64;
+      }
     }
     this.getFavoriteRecipeIds();
   }
@@ -70,7 +73,8 @@ export class ProfileComponent implements OnInit {
       // Once file is loaded, set the profile picture URL
       reader.onload = () => {
         this.profilePictureUrl = reader.result as string;
-        console.log('Profile picture URL:', this.profilePictureUrl);
+        this.profileForm.profilePicture = this.profilePictureUrl;
+        this.saveProfile();
       };
       reader.onerror = (error) => {
         console.error('Error reading file:', error);

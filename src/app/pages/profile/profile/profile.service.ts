@@ -54,7 +54,8 @@ export class ProfileService {
               userId: id,
               name: user.Name,
               surname: user.Surname,
-              favorites: user.Favorites
+              favorites: user.Favorites,
+              profilePictureBase64: user.ProfilePictureBase64
             };
 
             // Now update the BehaviorSubject with the new user data
