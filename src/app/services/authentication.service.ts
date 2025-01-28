@@ -9,7 +9,7 @@ export interface User {
   userId: string;
   name: string;
   surname: string;
-  favorites : string[];
+  favorites : number[];
 }
 
 @Injectable({

@@ -46,7 +46,7 @@ export class ProfileComponent implements OnInit {
     favorites: [],
   };
   favouriteRecipies: Recipe[] = [];
-  favorites: string[] = [];
+  favorites: number[] = [];
   constructor(private fb: FormBuilder, private route: ActivatedRoute
     , private cdr: ChangeDetectorRef, private profileService: ProfileService, private authService: AuthService, private recipeService: RecipeService) {
   }
@@ -170,8 +170,8 @@ export class ProfileComponent implements OnInit {
   }
 
   getFavoriteRecipes(): void {
-    this.favorites.forEach((recipeId: string) => {
-      this.recipeService.getRecipe(Number(recipeId)).subscribe(
+    this.favorites.forEach((recipeId: number) => {
+      this.recipeService.getRecipe(recipeId).subscribe(
         (recipe: any) => {
           this.favouriteRecipies.push(recipe);
         },
