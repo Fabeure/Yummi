@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CategoryComponent } from '../../components/category/category.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-categories',
   imports: [CategoryComponent],
@@ -8,6 +9,7 @@ import { CategoryComponent } from '../../components/category/category.component'
   standalone: true,
 })
 export class CategoriesComponent {
+
   categories = [
     { name: 'Main Course', image: 'categories/pasta.jpg' },
     { name: 'Side Dish', image: 'categories/side-dish.jpg' },
@@ -24,8 +26,4 @@ export class CategoriesComponent {
     { name: 'Snack', image: 'categories/snack.jpg' },
     { name: 'Drink', image: 'categories/smoothie.webp' }
   ];
-  onClick(name: string)
-  {
-     
-  }
 }

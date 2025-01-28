@@ -66,8 +66,7 @@ export class RecipeService {
       },
     };
   }
-  getMealPlan(params: HttpParams,timeFrame: string): Observable<MealsResponse>
-  {
+  getMealPlan(params: HttpParams, timeFrame: string): Observable<MealsResponse> {
     return this.http.get<MealsResponse>(
       'https://api.spoonacular.com/mealplanner/generate',
       { params }).pipe(
@@ -77,42 +76,39 @@ export class RecipeService {
       );
   }
 
-/**
-   * Get recipes from Spoonacular's complexSearch.
-   * @param offset The offset for pagination
-   * @param pageSize The number of items to fetch
-   * @param extraParams A dictionary of optional search params (query, diet, etc.)
-   */
-getRecipes(
-  offset: number,
-  pageSize: number,
-  extraParams: Record<string, string | number | boolean> = {}
-): Observable<SpoonacularSearchResponse> {
-  // Build base HttpParams
-  let params = new HttpParams()
-    .set('apiKey', environment.apiKey)
-    .set('offset', offset)
-    .set('number', pageSize)
-    .set('addRecipeInformation', 'true'); 
+  /**
+     * Get recipes from Spoonacular's complexSearch.
+     * @param offset The offset for pagination
+     * @param pageSize The number of items to fetch
+     * @param extraParams A dictionary of optional search params (query, diet, etc.)
+     */
+  getRecipes(
+    offset: number,
+    pageSize: number,
+    extraParams: Record<string, string | number | boolean> = {}
+  ): Observable<SpoonacularSearchResponse> {
+    // Build base HttpParams
+    let params = new HttpParams()
+      .set('apiKey', environment.apiKey)
+      .set('offset', offset)
+      .set('number', pageSize)
+      .set('addRecipeInformation', 'true');
 
-  // Merge in optional search params
-  // e.g. { query: 'pasta', diet: 'vegetarian', cuisine: 'italian', ... }
-  for (const [key, value] of Object.entries(extraParams)) {
-    if (value !== null && value !== undefined) {
-      params = params.set(key, String(value));
+    // Merge in optional search params
+    // e.g. { query: 'pasta', diet: 'vegetarian', cuisine: 'italian', ... }
+    for (const [key, value] of Object.entries(extraParams)) {
+      if (value !== null && value !== undefined) {
+        params = params.set(key, String(value));
+      }
     }
-  }
 
-  return this.http.get<SpoonacularSearchResponse>('https://api.spoonacular.com/recipes/complexSearch', { params });
-}
+    return this.http.get<SpoonacularSearchResponse>('https://api.spoonacular.com/recipes/complexSearch', { params });
+  }
 
   private mapRandomRecipes(response: any): Recipe[] {
     return response.recipes.map((recipe: any) => this.mapToRecipe(recipe));
   }
-  getRecipesByCategory(category: MEAL_TYPES, offset: number, pageSize: number): Observable<SpoonacularSearchResponse> {
-    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${environment.apiKey}&offset=${offset}&number=${pageSize}&type=${category}`;
-    return this.http.get<SpoonacularSearchResponse>(url); 
-  }
+
   private transformMealPlanResponse(apiResponse: any, timeFrame: string): MealsResponse {
     if (timeFrame === 'week') {
       const week = Object.entries(apiResponse.week).map(([dayKey, day]: [string, any]) => {
