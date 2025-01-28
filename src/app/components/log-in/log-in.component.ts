@@ -28,25 +28,36 @@ export class LogInComponent {
     if (this.form.invalid) return;
   
     const { email, password } = this.form.value;
-    console.log(email, password);
   
-    // Call the login method, subscribe to the result, and handle success and error
-    this.authService.login(email, password);
-  
-    // On successful login, close the form and navigate
-    this.authService.user$.subscribe({
-      next: () => {
-        this.onClose();  // Close the form
-        //this.router.navigate(['/']);  // Redirect to home or another page
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        if (response?.success) {
+          console.log('Login initiated successfully:', response);
+          
+          this.authService.user$.subscribe({
+            next: (user) => {
+              if (user) {
+                console.log('User authenticated:', user);
+              }
+            },
+            error: (err) => {
+              console.error('Error in user subscription:', err);
+              alert('An error occurred while processing your login.');
+            },
+          });
+        } else {
+          console.log('Login failed:', response?.message);
+          alert(response?.message || 'Login failed. Please try again.');
+        }
+        this.onClose();
       },
       error: (err) => {
-        alert('Check console');
-        console.error(err); // Log error details for debugging
-      }
+        console.error('Login failed:', err);
+        alert('Login failed. Please check your credentials and try again.');
+      },
     });
   }
   
-
   onClose()
   {
     this.dialogRef.close();
@@ -56,7 +67,7 @@ export class LogInComponent {
     this.dialogRef.close();
     this.dialogSignUp.open(SignUpComponent, {
       width: '500px',
-      disableClose: true, // Empêche la fermeture en cliquant à l'extérieur
+      disableClose: true,
     });
   }
   

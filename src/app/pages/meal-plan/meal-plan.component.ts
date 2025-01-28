@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-meal-plan',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
   standalone: true,
 })
 export class MealPlanComponent {
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
   diets = [
     { name: 'Whole30', icon: 'icon/meal.png' },
     { name: 'Low FODMAP', icon: 'icon/diet1.png' },
@@ -32,7 +33,12 @@ export class MealPlanComponent {
     targetCalories: new FormControl(null),
     exclude: new FormControl(null),
   });
-  
+  ngOnInit() {
+    this.authService.user$.subscribe({
+      next: (user) => console.log('User:', user),
+      error: (err) => console.error('Error in user observable:', err),
+    });
+  }
   selectDiet(diet: any) {
     this.form.get('diet')?.setValue(diet.name);
   }
