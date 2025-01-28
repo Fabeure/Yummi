@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, map, Observable, Subscription } from 'rxjs';
-import { AuthService } from '../../../services/authentication.service';
-import { User } from '../../../models/user.model';
-import { applicationUser } from '../../../models/applicationUser.model';
+import { catchError, map, Observable, of, Subscription } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { AuthService } from './authentication.service';
+import { applicationUser } from '../models/applicationUser.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ProfileService {
   userSubscription: Subscription = new Subscription();
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getFavorites(id: string): any {
-    if (!!id){
-      return
+  getFavorites(id: string): Observable<number[]> {
+    if (!id) {
+      return of([]);
     }
     return this.http.get(`${this.apiUrl}/getUserById`, { params: { id } }).pipe(
       map((res: any) => {
+        console.log('Favorites response: service', res);
         if (res && res.resultItem && res.resultItem.favorites) {
+          console.log('Favorites response: service', res.resultItem.favorites);
+
           return res.resultItem.favorites;
         } else {
           console.error('Favorites not found in the response:', res);
@@ -30,7 +31,6 @@ export class ProfileService {
         }
       })
     );
-
   }
   saveProfile(id: string, user: applicationUser, token: string): Observable<any> {
     let userParams = new HttpParams()
@@ -70,12 +70,10 @@ export class ProfileService {
       );
   }
 
-
   deleteAccount(id: string, token: string) {
     return this.http.delete(`${this.apiUrl}/deleteUserById`, {
       params: { id, token },
     });
-
   }
   getUserData(): any {
     return this.authService.user$;
@@ -86,5 +84,4 @@ export class ProfileService {
       this.userSubscription.unsubscribe();
     }
   }
-
 }

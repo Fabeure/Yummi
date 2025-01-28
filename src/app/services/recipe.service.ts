@@ -103,7 +103,7 @@ getRecipes(
     }
   }
 
-  return this.http.get<SpoonacularSearchResponse>(environment.recipeApiUrl + '/recipes/complexSearch', { params });
+  return this.http.get<SpoonacularSearchResponse>('https://api.spoonacular.com/recipes/complexSearch', { params });
 }
 
   private mapRandomRecipes(response: any): Recipe[] {
