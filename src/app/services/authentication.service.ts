@@ -78,7 +78,6 @@ export class AuthService {
       );
   }
 
-  // Check if the user is logged in (based on presence of access token)
   isLoggedIn(): boolean {
     if (typeof window === 'undefined') {
       return false;
@@ -86,7 +85,6 @@ export class AuthService {
     return localStorage && !!localStorage.getItem('accessToken') && !(localStorage.getItem('accessToken') == 'undefined');
   }
 
-  // Logout method (clear the user data and token)
   logout(): void {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken');
