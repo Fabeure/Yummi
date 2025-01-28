@@ -24,4 +24,8 @@ export class CategoriesComponent {
     { name: 'Snack', image: 'categories/snack.jpg' },
     { name: 'Drink', image: 'categories/smoothie.webp' }
   ];
+  onClick(name: string)
+  {
+     
+  }
 }

@@ -10,7 +10,7 @@
         >
           <li>
             <a
-            [routerLink]="[routes.test]"
+            [routerLink]="[routes.search]"
               class="block py-2 pr-4 pl-3 font-playfair text-lg text-main lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0"
               >Recipes</a
             >
@@ -29,25 +29,18 @@
               >Categories</a
             >
           </li>
-          <li>
-            <a
-              href="#"
-              class="block py-2 pr-4 pl-3 font-playfair text-lg text-main lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0"
-              >About Us</a
-            >
-          </li>
         </ul>
       </div>
 
       <div class="flex items-center">
-        <img src="search.png" class="w-6 h-6 mr-4 mt-4" alt="Search Icon" />
+        <app-search></app-search>
         @if(authoService.isLoggedIn()) {
           <div class="flex items-center mt-4">
             <!-- User Avatar -->
              <a [routerLink]="[routes.profile]">
             <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300 mr-4">
               <img
-                src="profiles/6.jpg" 
+              [src]="profilePictureUrl" 
                 alt="User Avatar" 
                 class="w-full h-full object-cover"
               />

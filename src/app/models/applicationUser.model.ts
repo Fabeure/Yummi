@@ -3,5 +3,5 @@ export interface applicationUser {
     Surname: string,
     Email: string,
     ProfilePictureBase64: string,
-    Favorites: string[]
+    Favorites: number[]
   }

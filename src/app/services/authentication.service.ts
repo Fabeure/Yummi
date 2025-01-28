@@ -4,20 +4,15 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-export interface User {
-  email: string;
-  userId: string;
-  name: string;
-  surname: string;
-  favorites : string[];
-}
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
-  private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  private userSubject: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
 
   constructor(private router: Router, private http: HttpClient) { 
@@ -66,7 +61,7 @@ export class AuthService {
       Username: username,
       Password: password,
     };
-  
+
     return this.http
       .post(`${this.apiUrl}/api/v1/authenticate/register`, registerData)
       .pipe(
@@ -76,7 +71,7 @@ export class AuthService {
             if (typeof window !== 'undefined') {
               localStorage.setItem('accessToken', accessToken);
             }
-            this.router.navigate(['/'])
+            this.router.navigate(['/']);
           }
           return res;
         }),
@@ -89,19 +84,34 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     const loginData = { Email: email, Password: password };
-  
+
     return this.http
       .post(`${this.apiUrl}/api/v1/authenticate/login`, loginData)
       .pipe(
         map((res: any) => {
           if (res?.success) {
-            const { accessToken, email, userId, name, surname, favorites } = res;
-  
+            const {
+              accessToken,
+              email,
+              userId,
+              name,
+              surname,
+              profilePictureBase64,
+              favorites,
+            } = res;
+
             if (typeof window !== 'undefined') {
               localStorage.setItem('accessToken', accessToken);
-            }  
-            this.userSubject.next({ email, userId, name, surname, favorites }); // Emit updated user data
-            console.log("done emitting user data",{ email, userId, name, favorites })
+            }
+            this.userSubject.next({
+              email,
+              userId,
+              name,
+              surname,
+              favorites,
+              profilePictureBase64,
+            }); // Emit updated user data
+            console.log('done emitting user data', { email, userId, name });
             //this.router.navigate(['/profile']);
           } else {
             console.log('Login failed:', res?.message);
@@ -119,18 +129,23 @@ export class AuthService {
     if (typeof window === 'undefined') {
       return false;
     }
-    return localStorage && !!localStorage.getItem('accessToken') && !(localStorage.getItem('accessToken') == 'undefined');
+    return (
+      localStorage &&
+      !!localStorage.getItem('accessToken') &&
+      !(localStorage.getItem('accessToken') == 'undefined')
+    );
   }
 
   logout(): void {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken');
-    }    this.userSubject.next(null);
+    }
+    this.userSubject.next(null);
     this.router.navigate(['/']);
   }
 
   updateUser(user: User): void {
-    console.log("nexting user:", user)
+    console.log('nexting user:', user);
     this.userSubject.next(user);
   }
 }

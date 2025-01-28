@@ -8,8 +8,10 @@ import { CommonModule } from '@angular/common';
 import { LogInComponent } from '../../components/log-in/log-in.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthorizationService } from '../../services/authorisation.service';
-import { AuthService, User } from '../../services/authentication.service';
+import { AuthService } from '../../services/authentication.service';
 import { Subject, takeUntil } from 'rxjs';
+import { User } from '../../models/user.model';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-recipe-content',
@@ -18,23 +20,21 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './recipe-content.component.css',
 })
 export class RecipeContentComponent implements OnInit, OnDestroy {
-  recipe: Recipe | null = null;
-  randomRecipes: Recipe[] = [];
   route = inject(ActivatedRoute);
   router = inject(Router);
   http = inject(HttpClient);
   recipeService = inject(RecipeService);
   authService = inject(AuthService);
+  profileService = inject(ProfileService);
+  recipe: Recipe | null = null;
+  randomRecipes: Recipe[] = [];
   liked = false;
-  user$: User | null = null;
-  private apiUrl = environment.apiUrl;
   private destroy$ = new Subject<void>();
-
+  user$: User | null = null;
   dialog = inject(MatDialog);
   authorisationService = inject(AuthorizationService);
 
   ngOnInit() {
-    // Using takeUntil to automatically unsubscribe when destroy$ emits
     this.route.data.pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.recipe = data['recipe'];
     });
@@ -52,6 +52,9 @@ export class RecipeContentComponent implements OnInit, OnDestroy {
         this.user$ = user;
       }
     });
+    this.liked = this.recipe?.id
+      ? this.user$?.favorites.includes(this.recipe.id) ?? false
+      : false;
   }
 
   ngOnDestroy() {
@@ -61,17 +64,74 @@ export class RecipeContentComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  likeRecipe() {
-    console.log('authenticated', this.authorisationService.isLoggedIn());
-    if (!this.liked) {
-      if (!this.authorisationService.isLoggedIn()) {
-        const dialogRef = this.dialog.open(LogInComponent, {
-          width: '500px',
-          disableClose: true,
-        });
+  async likeRecipe() {
+    // If user is not logged in, show login dialog
+    if (!this.authorisationService.isLoggedIn()) {
+      const dialogRef = this.dialog.open(LogInComponent, {
+        width: '500px',
+        disableClose: true,
+      });
+      return;
+    }
+    // Guard clauses for required data
+    if (!this.user$?.userId || !this.recipe?.id) {
+      console.error('Missing user or recipe data');
+      return;
+    }
+
+    const recipeId = this.recipe.id;
+    const userFavorites = [...(this.user$.favorites || [])]; // Create a copy of the array
+
+    try {
+      if (!this.liked) {
+        // Add to favorites
+        if (!userFavorites.includes(recipeId)) {
+          userFavorites.push(recipeId);
+        }
       } else {
-        this.liked = true;
+        // Remove from favorites
+        const index = userFavorites.indexOf(recipeId);
+        if (index > -1) {
+          userFavorites.splice(index, 1);
+        }
       }
+
+      const updatedProfile = {
+        Name: this.user$.name,
+        Surname: this.user$.surname,
+        Email: this.user$.email,
+        ProfilePictureBase64: this.user$.profilePictureBase64,
+        Favorites: userFavorites,
+      };
+
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        throw new Error('No access token found');
+      }
+
+      this.profileService
+        .saveProfile(this.user$.userId, updatedProfile, accessToken)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            this.liked = !this.liked; // Toggle like status
+            // Update the user's favorites in the auth service
+            if (this.user$) {
+              this.user$.favorites = userFavorites;
+            }
+            // Optional: Show success message
+            console.log(
+              `Recipe ${this.liked ? 'liked' : 'unliked'} successfully`
+            );
+          },
+          error: (err) => {
+            console.error('Error updating favorites:', err);
+            // Optional: Show error message to user
+          },
+        });
+    } catch (error) {
+      console.error('Error processing like/unlike:', error);
+      // Optional: Show error message to user
     }
   }
 }

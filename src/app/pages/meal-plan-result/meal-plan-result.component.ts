@@ -4,22 +4,29 @@ import { MealPlanCardComponent } from '../../components/meal-plan-card/meal-plan
 import { MealsResponse } from '../../models/mealPlanModel';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/authentication.service';
+import { MealCardComponent } from "../../components/meal-card/meal-card.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-meal-plan-result',
-  imports: [MealPlanCardComponent,CommonModule],
+  imports: [MealPlanCardComponent, CommonModule, MealCardComponent],
   templateUrl: './meal-plan-result.component.html',
   styleUrl: './meal-plan-result.component.css',
   standalone: true,
 })
 export class MealPlanResultComponent {
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,private router: Router) { }
   meals!:MealsResponse;
   type!:string;
   ngOnInit() {
-    this.meals = this.route.snapshot.data['mealPlan'];
+    this.route.data.subscribe((data) => {
+      this.meals = data['mealPlan'];
+    });
   }
-  
+  onClick (id: number)
+  {
+    this.router.navigate(['/recipe', id]);
+  }
   get totalNutrients() {
     if (this.meals.type === 'week') {
       return this.meals.data.week.reduce(
