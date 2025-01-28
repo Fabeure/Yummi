@@ -29,7 +29,7 @@
   @for(mealPlan of MealPlans() ; track mealPlan){
   <div class="w-full sm:w-1/2 md:w-1/3 flex justify-between p-2">
     <app-meal-plan-card [title]="mealPlan.title" [image]="mealPlan.image"
-      [recipes]="mealPlan.recipes"></app-meal-plan-card>
+      [recipes]="mealPlan.recipes" [diet]="mealPlan.diet"></app-meal-plan-card>
   </div>
   }
 </div>
