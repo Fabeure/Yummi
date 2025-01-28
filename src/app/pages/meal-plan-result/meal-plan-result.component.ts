@@ -4,10 +4,11 @@ import { MealPlanCardComponent } from '../../components/meal-plan-card/meal-plan
 import { MealsResponse } from '../../models/mealPlanModel';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/authentication.service';
+import { MealCardComponent } from "../../components/meal-card/meal-card.component";
 
 @Component({
   selector: 'app-meal-plan-result',
-  imports: [MealPlanCardComponent,CommonModule],
+  imports: [MealPlanCardComponent, CommonModule, MealCardComponent],
   templateUrl: './meal-plan-result.component.html',
   styleUrl: './meal-plan-result.component.css',
   standalone: true,
