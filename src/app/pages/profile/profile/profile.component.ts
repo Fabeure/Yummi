@@ -57,6 +57,7 @@ export class ProfileComponent implements OnInit {
       this.userId = this.resolvedData.userId;
       console.log('resolved data:', this.resolvedData)
       this.updateForm(this.resolvedData);
+      this.favorites=this.resolvedData.favorites;
     }
     this.getFavoriteRecipeIds();
   }

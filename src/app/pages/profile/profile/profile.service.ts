@@ -39,9 +39,9 @@ export class ProfileService {
       .set('Surname', user.Surname)
       .set('Email', user.Email)
       .set('ProfilePictureBase64', user.ProfilePictureBase64)
-      user.Favorites.forEach((favorite, index) => {
-        userParams = userParams.set(`Favorites[${index}]`, favorite.toString());
-      });
+    user.Favorites.forEach((favorite, index) => {
+      userParams = userParams.set(`Favorites[${index}]`, favorite.toString());
+    });
       
     return this.http.patch(`${this.apiUrl}/updateUserById?id=${id}`, userParams)
       .pipe(
@@ -56,7 +56,7 @@ export class ProfileService {
               surname: user.Surname,
               favorites: user.Favorites
             };
-  
+
             // Now update the BehaviorSubject with the new user data
             this.authService.updateUser(updatedUser); // Call updateUser from AuthService
           }
