@@ -35,6 +35,7 @@ export class AuthService {
                   userId: res.resultItem.id,
                   name: res.resultItem.name,
                   surname: res.resultItem.surname,
+                  profilePictureBase64: res.resultItem.ProfilePictureBase64,
                   favorites: res.resultItem.favorites || [],
                 };
                 console.log("USER FROM REFRESH:", user)
