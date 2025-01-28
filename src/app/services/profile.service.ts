@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, of, Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthService } from './authentication.service';
@@ -84,4 +84,17 @@ export class ProfileService {
       this.userSubscription.unsubscribe();
     }
   }
+  changePassword(userId: string, oldPassword: string, newPassword: string): Observable<any> {
+    const url = `${this.apiUrl}/updatePasswordById`;
+    const body = new HttpParams()
+      .set('id', userId)
+      .set('oldPassword', oldPassword)
+      .set('newPassword', newPassword);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    console.log('Change password body ml service:', body);
+    return this.http.patch(url, body.toString(), { headers });
+  }
+
 }

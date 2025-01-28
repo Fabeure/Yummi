@@ -54,7 +54,8 @@ export class ProfileComponent implements OnInit {
     name: '',
     surname: '',
     email: '',
-    password: '',
+    old_password: '',
+    new_password: '',
     profilePicture: '',
   };
   profilePictureUrl: string = 'profiles/profile.jpg'; // URL for the profile picture
@@ -95,6 +96,7 @@ export class ProfileComponent implements OnInit {
     }
     this.getFavoriteRecipeIds();
     console.log('these are fvrt recipes.', this.favouriteRecipies);
+    console.log("user id",this.userId);
   }
 
 
@@ -120,8 +122,9 @@ export class ProfileComponent implements OnInit {
       name: userData.name,
       surname: userData.surname,
       email: userData.email,
-      password: '',
-      profilePicture: userData.profilePictureBase64,
+      old_password: '',
+      new_password: '',
+      profilePicture: userData.profilePictureBase64
     };
   }
 
@@ -228,5 +231,23 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  changePassword() {}
+  changePassword(){
+    //console.log("change password mel component fellawel",id,oldPassword,newPassword);
+    this.profileService.changePassword(this.userId, this.profileForm.old_password, this.profileForm.new_password).subscribe({
+      next: (response) => {
+        if (response.isSuccess) {
+          console.log(response.userMessage); // Log success message
+          alert('Password changed successfully!'); // Notify user
+        } else {
+          console.error('Failed to change password:', response.userMessage); // Log error message
+          alert(`Error: ${response.userMessage}`); // Notify user
+        }
+      },
+      error: (error) => {
+        console.error('An error occurred:', error);
+        alert('An unexpected error occurred. Please try again later.');
+      }
+    });
+  }
 }
+
