@@ -84,27 +84,27 @@ export class HomeComponent {
     {
       imageSrc: '/slider/macron.jpg',
       title: 'French Macarons',
-      link: this.routes.test,
+      link: this.routes.search,
     },
     {
       imageSrc: '/slider/cookies.jpg',
       title: 'Chocolate Chip Cookies',
-      link: this.routes.test,
+      link: this.routes.search,
     }, 
     {
       imageSrc: '/slider/healthy_salad.jpg',
       title: 'Healthy Salad',
-      link: this.routes.test,
+      link: this.routes.search,
     },
     {
       imageSrc: '/slider/healthy.jpg',
       title: 'Healthy Bowl',
-      link: this.routes.test,
+      link: this.routes.search,
     },
     {
       imageSrc: '/slider/dessert.jpg',
       title: 'Appetizer Board',
-      link: this.routes.test,
+      link: this.routes.search,
     },
   ];
   categories = [
