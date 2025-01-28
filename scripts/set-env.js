@@ -8,14 +8,16 @@ const prodEnvConfigFile = `
 export const environment = {
   production: true,
   apiKey: '${process.env.API_KEY}',
-  apiUrl: '${process.env.API_URL}'
+  apiUrl: '${process.env.API_URL}',
+  recipeApiUrl : '${process.env.RECIPE_API_URL}'
 };
 `;
 const devEnvConfigFile = `
 export const environment = {
   production: false,
   apiKey: '${process.env.API_KEY}',
-  apiUrl: '${process.env.API_URL}'
+  apiUrl: '${process.env.API_URL}',
+  recipeApiUrl : '${process.env.RECIPE_API_URL}'
 };
 `;
 
