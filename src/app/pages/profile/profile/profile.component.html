@@ -186,10 +186,9 @@
 
 
   <div class="favorites">
-    @if(favouriteRecipies.length >0){
+    @if(favouriteRecipies.length > 0  &&  favouriteRecipies.length === favorites.length) {
     <app-recipe-grid
       [recipesInput]="favouriteRecipies"
-      (loadMore)="handleLoadMore()"
     >
     </app-recipe-grid
     >}

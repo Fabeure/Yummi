@@ -68,6 +68,7 @@ export class RecipeGridComponent implements OnInit {
     * Initialize recipes based on `recipesInput` or fetch from the API.
     */
    private initializeRecipes(): void {
+    console.log('this is the recipe input:', this.recipesInput);
      if (this.recipesInput && this.recipesInput.length > 0) {
        this.recipesSignal.set(this.recipesInput);
        this.totalResultsSignal.set(this.recipesInput.length);

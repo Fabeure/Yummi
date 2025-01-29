@@ -225,7 +225,7 @@ export class ProfileComponent implements OnInit {
           console.error('Failed to fetch recipe:', err);
         },
         complete: () => {
-          console.log('Completed');
+          console.log('Completed' , this.favouriteRecipies);
         },
       });
     });
