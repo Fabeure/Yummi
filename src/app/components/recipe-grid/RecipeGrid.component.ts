@@ -38,6 +38,10 @@ export class RecipeGridComponent implements OnInit {
    private pageSignal = signal<number>(1);
    private totalResultsSignal = signal<number>(0);
    private recipesSignal = signal<Recipe[]>([]);
+
+
+
+  private recipeCache = new Map<number, Recipe[]>();
  
    recipes = computed(() => this.recipesSignal());
    currentOffset = computed(() => this.offsetSignal());
@@ -60,7 +64,11 @@ export class RecipeGridComponent implements OnInit {
     */
    ngOnChanges(changes: SimpleChanges): void {
      if (changes['searchParams'] || changes['recipesInput']) {
+
+       this.recipeCache.clear();
        this.initializeRecipes();
+       this.pageSignal.set(1);
+       this.offsetSignal.set(0);
      }
    }
  
@@ -68,7 +76,6 @@ export class RecipeGridComponent implements OnInit {
     * Initialize recipes based on `recipesInput` or fetch from the API.
     */
    private initializeRecipes(): void {
-    console.log('this is the recipe input:', this.recipesInput);
      if (this.recipesInput && this.recipesInput.length > 0) {
        this.recipesSignal.set(this.recipesInput);
        this.totalResultsSignal.set(this.recipesInput.length);
@@ -82,29 +89,38 @@ export class RecipeGridComponent implements OnInit {
     * applying optional searchParams (query, diet, etc.).
     */
    private fetchRecipes(): void {
-     const offset = this.getCurrentOffsetBasedOnDisplayMode();
- 
-     this.recipeService
-       .getRecipes(offset, this.pageSize, this.searchParams || {})
-       .pipe(take(1))
-       .subscribe({
-         next: (res: SpoonacularSearchResponse) => {
-           this.totalResultsSignal.set(res.totalResults || 0);
- 
-           if (this.displayMode === 'showMore' && offset > 0) {
-             this.recipesSignal.set([
-               ...this.recipesSignal(),
-               ...res.results,
-             ]);
-           } else {
-             this.recipesSignal.set(res.results);
-           }
-         },
-         error: (err) => {
-           console.error('Error fetching recipes:', err);
-         },
-       });
-   }
+    const currentPage = this.displayMode === 'pagination' ? this.pageSignal() : null;
+    const offset = this.getCurrentOffsetBasedOnDisplayMode();
+
+    // Check the cache for pagination mode.
+    if (this.displayMode === 'pagination' && currentPage !== null && this.recipeCache.has(currentPage)) {
+      // Retrieve cached recipes.
+      this.recipesSignal.set(this.recipeCache.get(currentPage)!);
+      return;
+    }
+
+    this.recipeService
+      .getRecipes(offset, this.pageSize, this.searchParams || {})
+      .pipe(take(1))
+      .subscribe({
+        next: (res: SpoonacularSearchResponse) => {
+          this.totalResultsSignal.set(res.totalResults || 0);
+
+          if (this.displayMode === 'showMore' && offset > 0) {
+            this.recipesSignal.set([...this.recipesSignal(), ...res.results]);
+          } else {
+            this.recipesSignal.set(res.results);
+            // Cache the data for the current page.
+            if (this.displayMode === 'pagination' && currentPage !== null) {
+              this.recipeCache.set(currentPage, res.results);
+            }
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching recipes:', err);
+        },
+      });
+  }
  
    private getCurrentOffsetBasedOnDisplayMode(): number {
      if (this.displayMode === 'pagination') {
